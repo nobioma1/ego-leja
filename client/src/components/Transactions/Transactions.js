@@ -9,11 +9,11 @@ import { TransactionCard } from './TransactionCard';
 export const Transactions = () => {
   const disclosure = useDisclosure();
   const btnRef = React.useRef();
-  const filters = ['All Transactions', 'Lendings', 'Borrowings', 'Bad Debt'];
+  const filters = ['All', 'Lendings', 'Borrowings', 'Bad Debt'];
   const [activeFilter, setActiveFilter] = useState(0);
 
   return (
-    <Box w="2xl">
+    <Box w={['auto', 'auto', '2xl']}>
       <Flex alignItems="center" justifyContent="space-between" py={2}>
         <Text fontSize="xl" fontWeight="bold">
           Transactions

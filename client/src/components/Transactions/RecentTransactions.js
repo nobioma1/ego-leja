@@ -9,7 +9,7 @@ export const RecentTransactions = () => {
       <Text fontSize="xl" fontWeight="bold">
         Recent Transactions
       </Text>
-      <Box h="530px" overflowY="auto">
+      <Box h={['auto', 'auto', '530px']} overflowY="auto">
         <RecentTransactionCard
           type="Lending"
           name="John Doe"

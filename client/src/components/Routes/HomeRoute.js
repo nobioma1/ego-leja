@@ -9,7 +9,7 @@ import { Box } from '@chakra-ui/core';
 export const HomeRoute = () => {
   const { url } = useRouteMatch();
   return (
-    <Box pt={7} px={10}>
+    <Box pt={7} px={[0, 0, 10]}>
       <Route path={`${url}/`} component={Dashboard} exact />
       <Route path={`${url}/profile`} component={Profile} />
       <Route path={`${url}/transactions`} component={Transactions} />

@@ -10,11 +10,21 @@ export const AccountInformation = () => {
   return (
     <AccordionLayout title="Account Information" defaultIsOpen={true}>
       <Alert status="warning">
-        <Flex w="full" justifyContent="space-between" alignItems="center">
+        <Flex
+          w="full"
+          justifyContent={['center', 'center', 'space-between']}
+          alignItems={['space-between', 'space-between', 'center']}
+          direction={['column', 'column', 'row']}
+        >
           <Text>
             <AlertIcon /> Account is not verified
           </Text>
-          <Button variant="outline" variantColor="blue" size="sm">
+          <Button
+            variant="outline"
+            variantColor="green"
+            size="sm"
+            mt={[2, 2, 0]}
+          >
             Resend Verification Email
           </Button>
         </Flex>

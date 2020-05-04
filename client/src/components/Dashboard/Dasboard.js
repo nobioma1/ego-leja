@@ -33,24 +33,28 @@ export const Dashboard = () => {
           Add Transaction
         </Button>
       </Flex>
-      <Flex justifyContent="space-between" h="86vh">
+      <Flex
+        direction={['column', 'column', 'row']}
+        justifyContent="space-between"
+        h={['auto', 'auto', '86vh']}
+      >
         <Flex
           direction="column"
           h="100%"
           justifyContent="space-between"
-          w="52%"
-          pr={10}
+          w={['100%', '100%', '52%']}
+          pr={[0, 0, 10]}
         >
           <Box minH="25%">
             <DetailTabs />
           </Box>
           <Divider />
-          <Box h="70%">
+          <Box h={['auto', 'auto', '70%']}>
             <RecentTransactions />
           </Box>
         </Flex>
-        <Divider orientation="vertical" />
-        <Flex direction="column" px={10} w="48%">
+        <Divider orientation={['horizontal', 'horizontal', 'vertical']} />
+        <Flex direction="column" px={[0, 0, 10]} w={['100%', '100%', '48%']}>
           <MonthTransactions />
         </Flex>
       </Flex>

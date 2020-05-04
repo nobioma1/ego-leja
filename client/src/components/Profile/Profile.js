@@ -8,8 +8,8 @@ import { AccountInformation } from './AccountInformation';
 
 export const Profile = () => {
   return (
-    <Box w="100%" h="90vh" overflowY="auto">
-      <Flex direction="column" w="2xl">
+    <Box w="100%" h={['auto', 'auto', '90vh']} overflowY="auto">
+      <Flex direction="column" w={['auto', 'auto', '2xl']}>
         <Flex alignItems="center" justifyContent="space-between" py={2}>
           <Text fontSize="xl" fontWeight="bold">
             Profile

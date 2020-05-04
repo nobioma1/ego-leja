@@ -72,11 +72,15 @@ export const User = () => {
   const close = () => setIsOpen(false);
 
   return (
-    <Flex my={3} py={3}>
-      <Flex alignItems="center" justifyContent="center" w="25%">
+    <Flex my={3} py={[0, 0, 3]}>
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        w={['auto', 'auto', '25%']}
+      >
         <Avatar name="John Doe" size="2xl" />
       </Flex>
-      <Box pl={3} w="75%" position="relative">
+      <Flex pl={3} w={['auto', 'auto', '75%']} position="relative">
         <Box mb={2}>
           <Flex>
             <Text fontSize="2xl" mr={3}>
@@ -104,9 +108,10 @@ export const User = () => {
           <Text>johndeo@email.co</Text>
         </Box>
         <Text position="absolute" bottom={0}>
-          Joined: 21st August, 2020
+          Joined: <br />
+          21st August, 2020
         </Text>
-      </Box>
+      </Flex>
     </Flex>
   );
 };

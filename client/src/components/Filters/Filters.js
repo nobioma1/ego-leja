@@ -1,15 +1,15 @@
 import React from 'react';
-import { Flex, Box, ButtonGroup, Button, Text, Select } from '@chakra-ui/core';
+import { Flex, Box, Button, Text, Select } from '@chakra-ui/core';
 import { MdFilterList } from 'react-icons/md';
 
 export const Filters = ({ filters, isActive, setActive }) => {
   return (
-    <Flex alignItems="center" pb={3}>
+    <Flex direction={['column', 'column', 'row']} pb={3}>
       <Flex alignItems="center" mr={3}>
         <Box as={MdFilterList} size={8} mr={1} />
         <Text>Filters</Text>
       </Flex>
-      <ButtonGroup spacing={4}>
+      <Flex justifyContent="space-between" wrap my={[2, 2, 0]} mx={[0, 0, 2]}>
         {filters.map((filter, index) => (
           <Button
             key={`${filter}-${index}`}
@@ -17,12 +17,13 @@ export const Filters = ({ filters, isActive, setActive }) => {
             variantColor="green"
             variant={index === isActive ? 'solid' : 'outline'}
             onClick={() => setActive(index)}
+            mx={[0, 0, 2]}
           >
             {filter}
           </Button>
         ))}
-      </ButtonGroup>
-      <Flex alignItems="center" ml={3}>
+      </Flex>
+      <Flex alignItems="center">
         <Select size="sm" placeholder="Order by" _focus={{ outline: 'none' }}>
           <option value="name">Name</option>
           <option value="type">Type</option>
