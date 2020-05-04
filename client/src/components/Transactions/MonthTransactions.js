@@ -19,7 +19,7 @@ export const MonthTransactions = () => {
         type="decrease"
         align="left"
       />
-      <Flex justifyContent="center">
+      <Flex justifyContent="center" pb={3}>
         <Chart />
       </Flex>
     </Box>

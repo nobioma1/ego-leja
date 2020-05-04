@@ -1,10 +1,12 @@
 import React from 'react';
-import { Flex, Box } from '@chakra-ui/core';
+import { Flex, Box, Image } from '@chakra-ui/core';
+import { IoIosMenu } from 'react-icons/io';
 
 import { Search } from 'components/Search';
 import { Notification } from 'components/Notification';
 
-export const TopBar = () => {
+import logo from 'assets/logo.svg';
+export const TopBar = ({ onClick }) => {
   return (
     <Flex
       alignItems="center"
@@ -15,12 +17,26 @@ export const TopBar = () => {
       pb={4}
       w="100%"
     >
-      <Box w="95%">
+      <Image
+        src={logo}
+        alt="Credit logo"
+        h={8}
+        mr={2}
+        display={['block', 'block', 'none']}
+      />
+      <Box w={['65%', '65%', '95%']}>
         <Search />
       </Box>
       <Box w="fit-content">
         <Notification />
       </Box>
+      <Box
+        as={IoIosMenu}
+        display={['block', 'block', 'none']}
+        onClick={onClick}
+        cursor="pointer"
+        size={10}
+      />
     </Flex>
   );
 };
