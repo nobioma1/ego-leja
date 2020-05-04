@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import {
-  Button,
-  InputLeftAddon,
   Box,
-  Switch,
+  Button,
   Flex,
+  InputLeftAddon,
   Text,
+  Switch,
 } from '@chakra-ui/core';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 import { FaCoins } from 'react-icons/fa';
+import * as Yup from 'yup';
 
 import { AddOnInputField } from 'components/Shared';
 import symbols from 'utils/symbols';

@@ -1,15 +1,11 @@
 import React from 'react';
-import { Box, useDisclosure, Flex } from '@chakra-ui/core';
+import { Box, Flex } from '@chakra-ui/core';
 
 import { HomeRoute } from 'components/Routes';
 import { Sidebar } from 'components/Sidebar';
 import { TopBar } from 'components/TopBar';
-import { AddBorrowing, AddCredit } from 'components/Transactions';
 
 export const Home = () => {
-  const { onOpen: creditOnOpen, ...creditDisclosure } = useDisclosure();
-  const { onOpen: borrowingOnOpen, ...borrowingDisclosure } = useDisclosure();
-
   return (
     <Box h="100%" position="absolute" w="100%">
       <Flex>
@@ -23,8 +19,6 @@ export const Home = () => {
           <HomeRoute />
         </Box>
       </Flex>
-      <AddBorrowing disclosure={borrowingDisclosure} />
-      <AddCredit disclosure={creditDisclosure} />
     </Box>
   );
 };
