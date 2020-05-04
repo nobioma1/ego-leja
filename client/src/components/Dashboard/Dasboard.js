@@ -1,18 +1,22 @@
 import React from 'react';
-import { Box, Divider, Flex, Text, useDisclosure } from '@chakra-ui/core';
+import {
+  Box,
+  Divider,
+  Flex,
+  Text,
+  useDisclosure,
+  Button,
+} from '@chakra-ui/core';
 
 import { DetailTabs } from 'components/DetailTabs';
-import { AddTransactionMenu } from 'components/Menu';
 import {
   RecentTransactions,
   MonthTransactions,
-  AddBorrowing,
-  AddCredit,
+  AddTransaction,
 } from 'components/Transactions';
 
 export const Dashboard = () => {
-  const { onOpen: creditOnOpen, ...creditDisclosure } = useDisclosure();
-  const { onOpen: borrowingOnOpen, ...borrowingDisclosure } = useDisclosure();
+  const { onOpen, ...disclosure } = useDisclosure();
 
   return (
     <Box>
@@ -20,10 +24,14 @@ export const Dashboard = () => {
         <Text fontSize="xl" fontWeight="bold">
           Dashboard
         </Text>
-        <AddTransactionMenu
-          borrowingOnOpen={borrowingOnOpen}
-          creditOnOpen={creditOnOpen}
-        />
+        <Button
+          leftIcon="add"
+          variantColor="green"
+          variant="solid"
+          onClick={onOpen}
+        >
+          Add Transaction
+        </Button>
       </Flex>
       <Flex justifyContent="space-between" h="86vh">
         <Flex
@@ -46,8 +54,7 @@ export const Dashboard = () => {
           <MonthTransactions />
         </Flex>
       </Flex>
-      <AddBorrowing disclosure={borrowingDisclosure} />
-      <AddCredit disclosure={creditDisclosure} />
+      <AddTransaction disclosure={disclosure} />
     </Box>
   );
 };
