@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Text, Flex, useDisclosure } from '@chakra-ui/core';
 
+import { Filters } from 'components/Filters';
 import { Modal } from 'components/Modal';
-import { TransactionCard } from './TransactionCard';
 import { OffsetForm } from './OffsetForm';
+import { TransactionCard } from './TransactionCard';
 
 export const Transactions = () => {
   const disclosure = useDisclosure();
   const btnRef = React.useRef();
+  const filters = ['All Transactions', 'Lendings', 'Borrowings', 'Bad Debt'];
+  const [activeFilter, setActiveFilter] = useState(0);
 
   return (
     <Box w="2xl">
@@ -16,6 +19,11 @@ export const Transactions = () => {
           Transactions
         </Text>
       </Flex>
+      <Filters
+        filters={filters}
+        setActive={setActiveFilter}
+        isActive={activeFilter}
+      />
       <Box>
         <TransactionCard
           type="Lending"
