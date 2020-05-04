@@ -1,16 +1,9 @@
 import React from 'react';
-import {
-  Button,
-  Select,
-  FormLabel,
-  Box,
-  FormControl,
-  FormErrorMessage,
-} from '@chakra-ui/core';
-import { Formik, Field } from 'formik';
+import { Button } from '@chakra-ui/core';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { InputField } from 'components/Shared';
+import { InputField, SelectField } from 'components/Shared';
 
 const AccountInformationFormSchema = Yup.object().shape({
   country: Yup.string(),
@@ -23,7 +16,6 @@ export const AccountInformationForm = () => {
       initialValues={{
         country: '',
         state: '',
-        phoneNumber: '',
       }}
       validationSchema={AccountInformationFormSchema}
       onSubmit={(values, actions) => {
@@ -32,28 +24,15 @@ export const AccountInformationForm = () => {
     >
       {(props) => (
         <form onSubmit={props.handleSubmit}>
-          <Box marginY={3}>
-            <Field name="country">
-              {({ field, form }) => (
-                <FormControl
-                  isInvalid={
-                    form.errors[field.name] && form.touched[field.name]
-                  }
-                >
-                  <FormLabel htmlFor={field.name}>Country</FormLabel>
-                  <Select
-                    {...field}
-                    id={field.name}
-                    placeholder="select country"
-                  >
-                    <option value="NGN">Nigeria</option>
-                    <option value="GH">Ghana</option>
-                  </Select>
-                  <FormErrorMessage>{form.errors[field.name]}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-          </Box>
+          <SelectField
+            label="Country"
+            name="country"
+            options={[
+              { name: 'Nigeria', value: 'NGN' },
+              { name: 'Ghana', value: 'GH' },
+            ]}
+            placeholder="Select Country"
+          />
           <InputField
             type="text"
             name="state"

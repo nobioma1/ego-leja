@@ -12,16 +12,12 @@ import {
   Flex,
   Avatar,
   Text,
-  FormControl,
-  FormLabel,
-  Select,
-  FormErrorMessage,
 } from '@chakra-ui/core';
 import FocusLock from 'react-focus-lock';
-import { Formik, Field } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { InputField } from 'components/Shared';
+import { InputField, SelectField } from 'components/Shared';
 
 const ChangeNameSchema = Yup.object().shape({
   title: Yup.string().required('title is required'),
@@ -44,21 +40,16 @@ const Form = ({ onCancel }) => {
     >
       {(props) => (
         <form onSubmit={props.handleSubmit}>
-          <Field name="title">
-            {({ field, form }) => (
-              <FormControl
-                isInvalid={form.errors[field.name] && form.touched[field.name]}
-              >
-                <FormLabel htmlFor={field.name}>Title</FormLabel>
-                <Select {...field} id={field.name} placeholder="select a title">
-                  <option value="Mr.">Mr.</option>
-                  <option value="Mrs.">Mrs.</option>
-                  <option value="Miss.">Miss.</option>
-                </Select>
-                <FormErrorMessage>{form.errors[field.name]}</FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
+          <SelectField
+            label="Title"
+            name="title"
+            options={[
+              { name: 'Mr.', value: 'mr' },
+              { name: 'Mrs.', value: 'mrs' },
+              { name: 'Miss.', value: 'miss' },
+            ]}
+            placeholder="Select title"
+          />
           <InputField type="text" name="firstName" label="First Name" />
           <InputField type="text" name="lastName" label="Last Name" />
           <ButtonGroup d="flex" justifyContent="flex-end">
