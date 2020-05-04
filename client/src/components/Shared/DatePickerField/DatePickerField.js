@@ -6,6 +6,7 @@ import {
   FormErrorMessage,
   Flex,
   Icon,
+  Text,
 } from '@chakra-ui/core';
 import DatePicker from 'react-datepicker';
 import { Field } from 'formik';
@@ -32,8 +33,8 @@ export const DatePickerField = ({
           >
             <Flex direction="column">
               {label && <FormLabel htmlFor={field.name}>{label}</FormLabel>}
-              <Flex justifyContent="space-between" alignItems="center">
-                <Icon name="calendar" size="30px" color="gray.500" />
+              <Flex alignItems="center">
+                <Icon name="calendar" size="30px" color="gray.500" mr={3} />
                 <DatePicker
                   {...field}
                   {...props}
@@ -41,6 +42,7 @@ export const DatePickerField = ({
                   minDate={minDate}
                   selected={field.value}
                 />
+                <Text ml={3}>Today</Text>
               </Flex>
             </Flex>
             <FormErrorMessage>{form.errors[field.name]}</FormErrorMessage>
