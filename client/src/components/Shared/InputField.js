@@ -51,6 +51,7 @@ export const AddOnInputField = ({
   type,
   placeholder,
   children,
+  required,
   ...props
 }) => {
   return (
@@ -59,6 +60,7 @@ export const AddOnInputField = ({
         {({ field, form }) => (
           <FormControl
             isInvalid={form.errors[field.name] && form.touched[field.name]}
+            isRequired={required}
           >
             {label && <FormLabel htmlFor={field.name}>{label}</FormLabel>}
             <InputGroup>
