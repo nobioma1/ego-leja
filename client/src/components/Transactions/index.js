@@ -1,5 +1,4 @@
-export { AddBorrowing } from './AddBorrowing';
-export { AddCredit } from './AddCredit';
+export { AddTransaction } from './AddTransaction';
 export { MonthTransactions } from './MonthTransactions';
 export { RecentTransactions } from './RecentTransactions';
 export { Transactions } from './Transactions';
