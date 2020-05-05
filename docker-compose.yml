@@ -1,0 +1,17 @@
+version: '3.3'
+services:
+  client:
+    build: './client'
+    depends_on:
+      - users-service
+    ports:
+      - 3000:3000
+    stdin_open: true
+    volumes:
+      - ./client:/usr/src/app
+  users-service:
+    build: './users-service'
+    ports:
+      - 5000:5000
+    volumes:
+      - ./users-service:/usr/src/app
