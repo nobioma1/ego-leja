@@ -1,4 +1,4 @@
-export declare enum TransactionType {
-  LEND = 'lend',
+export enum TransactionType {
+  LEND = 'LEND',
   BORROW = 'BORROW',
 }
