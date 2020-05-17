@@ -21,7 +21,7 @@ const create = async (userId: string) => {
   return record;
 };
 
-describe('[PUT /api/records] update New Record', () => {
+describe('[PUT /api/records] UPDATE New Record', () => {
   it('returns an error 400 if fields are not valid', async () => {
     const user = global.signin();
     const record = await create(user.id);
@@ -89,7 +89,7 @@ describe('[PUT /api/records] update New Record', () => {
       .expect(404);
   });
 
-  it('return 401 if record does not belongs to user', async () => {
+  it('return 404 if record id is not among user records collection', async () => {
     const record = await create(generateID());
     await request
       .put(`/api/records/${record.id}`)
@@ -101,7 +101,7 @@ describe('[PUT /api/records] update New Record', () => {
         description: 'Some description',
         isBadDebt: false,
       })
-      .expect(401);
+      .expect(404);
   });
 
   it('updates an existing record and send response', async () => {

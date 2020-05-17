@@ -5,7 +5,7 @@ import { TransactionType } from '../../models/types/transaction-type';
 
 const request = supertest(server);
 
-describe('[POST /api/records] Create New Record', () => {
+describe('[POST /api/records] CREATE New Record', () => {
   it('returns an error 400 if fields are not valid', async () => {
     await request
       .post('/api/records')
