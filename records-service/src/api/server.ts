@@ -6,7 +6,9 @@ import { errorHandler } from '@ego-leja/common';
 
 import { newRouter } from '../routes/new';
 import { updateRouter } from '../routes/update';
-import { getRouter } from '../routes/get-all';
+import { getRouter } from '../routes/get';
+import { getAllRouter } from '../routes/get-all';
+import { deleteRouter } from '../routes/delete';
 
 const server = express();
 
@@ -32,6 +34,8 @@ server.head('/status', (req, res) => {
 });
 
 server.use(newRouter);
+server.use(getAllRouter);
+server.use(deleteRouter);
 server.use(getRouter);
 server.use(updateRouter);
 
