@@ -26,4 +26,4 @@ router.get('/api/records', requireAuth, async (req: Request, res: Response) => {
   res.status(200).send(records);
 });
 
-export { router as getRouter };
+export { router as getAllRouter };
