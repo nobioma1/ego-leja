@@ -1,17 +1,9 @@
 import mongoose from 'mongoose';
 
 import { TransactionType } from './types/transaction-type';
+import { RecordDoc } from './types/record-doc';
 
 interface RecordAttrs {
-  name: string;
-  transactionType: TransactionType;
-  amount: number;
-  description: string;
-  isBadDebt: boolean;
-  userId: string;
-}
-
-interface RecordDoc extends mongoose.Document {
   name: string;
   transactionType: TransactionType;
   amount: number;
@@ -58,15 +50,18 @@ const recordSchema = new mongoose.Schema(
       transform(doc, ret) {
         ret.id = ret._id;
         delete ret._id;
+        delete ret.version;
       },
     },
   }
 );
 
-const Record = mongoose.model<RecordDoc, RecordModel>('Record', recordSchema);
+recordSchema.set('versionKey', 'version');
 
 recordSchema.statics.build = (attrs: RecordAttrs): RecordDoc => {
   return new Record(attrs);
 };
+
+const Record = mongoose.model<RecordDoc, RecordModel>('Record', recordSchema);
 
 export { Record };
