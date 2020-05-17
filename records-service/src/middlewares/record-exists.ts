@@ -16,7 +16,10 @@ export const recordExists = async (
   res: Response,
   next: NextFunction
 ) => {
-  const record = await Record.findById(req.params.recordId);
+  const record = await Record.findOne({
+    _id: req.params.recordId,
+    userId: req.currentUser.id,
+  });
 
   if (!record) {
     throw new NotFoundError('Record Not Found');
