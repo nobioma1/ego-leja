@@ -4,6 +4,8 @@ import 'express-async-errors';
 import helmet from 'helmet';
 import { errorHandler } from '@ego-leja/common';
 
+import { newRouter } from '../routes/new';
+
 const server = express();
 
 server.use(express.json());
@@ -26,6 +28,8 @@ server.get('/', (req, res) => {
 server.head('/status', (req, res) => {
   res.status(200).end();
 });
+
+server.use(newRouter);
 
 server.use(errorHandler);
 
