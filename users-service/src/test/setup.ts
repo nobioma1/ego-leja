@@ -15,12 +15,13 @@ declare global {
 let mongo: any;
 
 beforeAll(async () => {
-  process.env.JWT_KEY = 'someTestJETSecret';
-
   mongo = new MongoMemoryServer();
   const mongoUri = await mongo.getUri();
 
-  await mongoose.connect(mongoUri, {
+  process.env.JWT_KEY = 'someTestJETSecret';
+  process.env.MONGO_DB_URI = mongoUri;
+
+  await mongoose.connect(process.env.MONGO_DB_URI!, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
