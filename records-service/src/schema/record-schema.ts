@@ -1,12 +1,12 @@
 import Joi from '@hapi/joi';
 
-import { TransactionType } from '../models/types/transaction-type';
+import { RecordType } from '../models/types/record-type';
 
 export const recordSchema = Joi.object({
   name: Joi.string().label('Name').required(),
-  transactionType: Joi.string()
-    .label('Transaction Type')
-    .valid(...Object.values(TransactionType))
+  recordType: Joi.string()
+    .label('Record Type')
+    .valid(...Object.values(RecordType))
     .required(),
   amount: Joi.number().label('Amount').positive().required(),
   description: Joi.string().label('Description'),

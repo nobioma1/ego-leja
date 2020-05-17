@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
-import { TransactionType } from './transaction-type';
+import { RecordType } from './record-type';
 
 export interface RecordDoc extends mongoose.Document {
   name: string;
-  transactionType: TransactionType;
+  recordType: RecordType;
   amount: number;
   description: string;
   isBadDebt: boolean;

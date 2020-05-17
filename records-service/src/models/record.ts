@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
-import { TransactionType } from './types/transaction-type';
+import { RecordType } from './types/record-type';
 import { RecordDoc } from './types/record-doc';
 
 interface RecordAttrs {
   name: string;
-  transactionType: TransactionType;
+  recordType: RecordType;
   amount: number;
   description: string;
   isBadDebt: boolean;
@@ -22,9 +22,9 @@ const recordSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    transactionType: {
+    recordType: {
       type: String,
-      enum: Object.values(TransactionType),
+      enum: Object.values(RecordType),
       required: true,
     },
     amount: {

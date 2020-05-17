@@ -1,25 +1,25 @@
 import supertest from 'supertest';
 
-import { TransactionType } from '../../models/types/transaction-type';
 import { Record } from '../../models/record';
 import { server } from '../../api/server';
 import { generateID } from '../../test/helpers/generate-id';
+import { RecordType } from '../../models/types/record-type';
 
 const request = supertest(server);
 
 const create = async ({
   userId,
-  transactionType = TransactionType.BORROW,
+  recordType = RecordType.BORROW,
 }: {
   userId: string;
-  transactionType?: TransactionType;
+  recordType?: RecordType;
 }) => {
   const record = Record.build({
     name: 'Trinna Trip',
     amount: 30000,
     description: 'Some description',
     isBadDebt: false,
-    transactionType,
+    recordType,
     userId,
   });
   await record.save();
@@ -60,22 +60,22 @@ describe('[GET /api/records] GET Records', () => {
   it('return appropriate lend records of lend/borrow by current user', async () => {
     const user = global.signin();
 
-    await create({ userId: user.id, transactionType: TransactionType.BORROW });
-    await create({ userId: user.id, transactionType: TransactionType.BORROW });
-    await create({ userId: user.id, transactionType: TransactionType.LEND });
-    await create({ userId: user.id, transactionType: TransactionType.BORROW });
-    await create({ userId: user.id, transactionType: TransactionType.LEND });
+    await create({ userId: user.id, recordType: RecordType.BORROW });
+    await create({ userId: user.id, recordType: RecordType.BORROW });
+    await create({ userId: user.id, recordType: RecordType.LEND });
+    await create({ userId: user.id, recordType: RecordType.BORROW });
+    await create({ userId: user.id, recordType: RecordType.LEND });
     await create({ userId: generateID() });
 
     const userRecords = await Record.find({ userId: user.id });
     const allRecords = await Record.find();
 
     const lendRes = await request
-      .get(`/api/records?trxType=${TransactionType.LEND}`)
+      .get(`/api/records?recType=${RecordType.LEND}`)
       .set('Cookie', user.cookie);
 
     const borrowRes = await request
-      .get(`/api/records?trxType=${TransactionType.BORROW}`)
+      .get(`/api/records?recType=${RecordType.BORROW}`)
       .set('Cookie', user.cookie);
 
     expect(allRecords).toHaveLength(6);

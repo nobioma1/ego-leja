@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 
 import { server } from '../../api/server';
-import { TransactionType } from '../../models/types/transaction-type';
+import { RecordType } from '../../models/types/record-type';
 
 const request = supertest(server);
 
@@ -12,7 +12,7 @@ describe('[POST /api/records] CREATE New Record', () => {
       .set('Cookie', global.signin().cookie)
       .send({
         name: '',
-        transactionType: '',
+        recordType: '',
         amount: '',
         description: 'string',
         isBadDebt: false,
@@ -35,7 +35,7 @@ describe('[POST /api/records] CREATE New Record', () => {
       .set('Cookie', global.signin().cookie)
       .send({
         name: 'Johnny Loe',
-        transactionType: 'WRONGTYPE',
+        recordType: 'WRONGTYPE',
         amount: '2500.0',
         description: 'Some description',
         isBadDebt: false,
@@ -48,7 +48,7 @@ describe('[POST /api/records] CREATE New Record', () => {
       .post('/api/records')
       .send({
         name: 'Johnny Loe',
-        transactionType: TransactionType.LEND,
+        recordType: RecordType.LEND,
         amount: 2500.0,
         description: 'Some description',
         isBadDebt: false,
@@ -64,7 +64,7 @@ describe('[POST /api/records] CREATE New Record', () => {
       .set('Cookie', user.cookie)
       .send({
         name: 'Trinna Trip',
-        transactionType: TransactionType.BORROW,
+        recordType: RecordType.BORROW,
         amount: 30000,
         description: 'Some description',
         isBadDebt: false,

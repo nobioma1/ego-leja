@@ -1,25 +1,25 @@
 import supertest from 'supertest';
 
-import { TransactionType } from '../../models/types/transaction-type';
 import { Record } from '../../models/record';
 import { server } from '../../api/server';
 import { generateID } from '../../test/helpers/generate-id';
+import { RecordType } from '../../models/types/record-type';
 
 const request = supertest(server);
 
 const create = async ({
   userId,
-  transactionType = TransactionType.BORROW,
+  recordType = RecordType.BORROW,
 }: {
   userId: string;
-  transactionType?: TransactionType;
+  recordType?: RecordType;
 }) => {
   const record = Record.build({
     name: 'Trinna Trip',
     amount: 30000,
     description: 'Some description',
     isBadDebt: false,
-    transactionType,
+    recordType,
     userId,
   });
   await record.save();

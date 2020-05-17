@@ -2,7 +2,6 @@ import { Router, Response, Request } from 'express';
 import { requireAuth } from '@ego-leja/common';
 
 import { Record } from '../models/record';
-import { TransactionType } from '../models/types/transaction-type';
 
 const router = Router();
 
@@ -11,10 +10,10 @@ router.get('/api/records', requireAuth, async (req: Request, res: Response) => {
 
   let queryParams = {};
 
-  if (params.trxType) {
+  if (params.recType) {
     queryParams = {
       ...queryParams,
-      transactionType: params.trxType,
+      recordType: params.recType,
     };
   }
 

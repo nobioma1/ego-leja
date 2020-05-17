@@ -11,11 +11,11 @@ router.post(
   requireAuth,
   validateFields(recordSchema),
   async (req: Request, res: Response) => {
-    const { name, transactionType, amount, description, isBadDebt } = req.body;
+    const { name, recordType, amount, description, isBadDebt } = req.body;
 
     const record = Record.build({
       name,
-      transactionType,
+      recordType,
       amount,
       description,
       isBadDebt,

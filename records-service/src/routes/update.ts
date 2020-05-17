@@ -14,12 +14,12 @@ router.put(
   isUserRecord,
   validateFields(recordSchema),
   async (req: Request, res: Response) => {
-    const { name, transactionType, amount, description, isBadDebt } = req.body;
+    const { name, recordType, amount, description, isBadDebt } = req.body;
     const record = req.record;
 
     record.set({
       name,
-      transactionType,
+      recordType,
       amount,
       description,
       isBadDebt,
