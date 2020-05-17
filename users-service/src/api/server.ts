@@ -25,23 +25,23 @@ server.use(
   })
 );
 
-server.use(signInRouter);
-server.use(signUpRouter);
-server.use(currentUser);
-server.use(deleteUserRouter);
-server.use(updateUserRouter);
-server.use(changePasswordRouter);
-server.use(signOutRouter);
-
 server.get('/', (req, res) => {
   res.status(200).json({
-    message: 'client-users-service up 🚀',
+    message: 'users-service up 🚀',
   });
 });
 
 server.head('/status', (req, res) => {
   res.status(200).end();
 });
+
+server.use(currentUser);
+server.use(signOutRouter);
+server.use(deleteUserRouter);
+server.use(updateUserRouter);
+server.use(signInRouter);
+server.use(signUpRouter);
+server.use(changePasswordRouter);
 
 server.use(errorHandler);
 
