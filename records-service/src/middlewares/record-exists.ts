@@ -11,6 +11,17 @@ declare global {
     }
   }
 }
+
+/**
+ * Checks if the record of recordId exists,
+ * throws a NotFoundError if it does not.
+ *
+ * Add record document to Request object if record exists
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
 export const recordExists = async (
   req: Request,
   res: Response,
