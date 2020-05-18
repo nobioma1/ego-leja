@@ -3,7 +3,6 @@ import { requireAuth, validateFields } from '@ego-leja/common';
 
 import { recordSchema } from '../schema/record-schema';
 import { recordExists } from '../middlewares/record-exists';
-import { isUserRecord } from '../middlewares/is-user-record';
 
 const router = Router();
 
@@ -11,7 +10,6 @@ router.put(
   '/api/records/:recordId',
   requireAuth,
   recordExists,
-  isUserRecord,
   validateFields(recordSchema),
   async (req: Request, res: Response) => {
     const { name, recordType, amount, description, isBadDebt } = req.body;
