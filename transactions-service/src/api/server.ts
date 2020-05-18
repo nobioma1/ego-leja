@@ -4,6 +4,9 @@ import 'express-async-errors';
 import helmet from 'helmet';
 import { errorHandler } from '@ego-leja/common';
 
+import { newRouter } from '../routes/new';
+import { getAllRouter } from '../routes/get-all';
+
 const server = express();
 
 server.use(express.json());
@@ -22,6 +25,9 @@ server.get('/', (req, res) => {
     message: 'transactions-service up 🚀',
   });
 });
+
+server.use(newRouter);
+server.use(getAllRouter);
 
 server.head('/status', (req, res) => {
   res.status(200).end();
