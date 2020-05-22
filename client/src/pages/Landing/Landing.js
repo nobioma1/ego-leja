@@ -12,6 +12,7 @@ import React from 'react';
 import logo from 'assets/logo.svg';
 import { Login } from './Login';
 import { Signup } from './Signup';
+import { TopBar } from './TopBar';
 
 export const Landing = () => {
   const {
@@ -39,28 +40,12 @@ export const Landing = () => {
           backgroundPosition="right bottom"
           backgroundSize={['50%', '20%', '50%']}
         >
-          <Flex w="full" justifyContent="space-between">
-            <Image src={logo} alt="Credit logo" h={12} />
-            <Stack isInline>
-              <Button
-                ref={loginBtnRef}
-                onClick={onOpenLogin}
-                size="md"
-                variant="ghost"
-              >
-                Login
-              </Button>
-              <Button
-                ref={signUpBtnRef}
-                onClick={onOpenSignup}
-                size="md"
-                variantColor="green"
-                variant="solid"
-              >
-                Create An Account
-              </Button>
-            </Stack>
-          </Flex>
+          <TopBar
+            onOpenLogin={onOpenLogin}
+            onOpenSignup={onOpenSignup}
+            loginBtnRef={loginBtnRef}
+            signUpBtnRef={signUpBtnRef}
+          />
           <Flex
             w={['100%', '90%']}
             h="80%"
