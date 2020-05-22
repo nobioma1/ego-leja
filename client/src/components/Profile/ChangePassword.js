@@ -6,12 +6,12 @@ import * as Yup from 'yup';
 import { AccordionLayout, InputField } from 'components/Shared';
 
 const ChangePasswordSchema = Yup.object().shape({
-  currentPassword: Yup.string().required('password is required'),
+  currentPassword: Yup.string().required('Current password is required'),
   newPassword: Yup.string()
-    .min(8, 'password should be minimum of 8 characters')
+    .min(8, 'New password should be minimum of 8 characters')
     .required('password is required'),
   confirmPassword: Yup.string().oneOf(
-    [Yup.ref('password'), null],
+    [Yup.ref('newPassword'), null],
     'Passwords must match'
   ),
 });
