@@ -3,13 +3,16 @@ import React from 'react';
 
 import { ThemeProvider } from 'components/Theme';
 import { AppRoute } from 'components/Routes';
+import { UserContextProvider } from 'context/UserContext';
 
 export const App = () => {
   return (
     <ThemeProvider>
       <CSSReset />
       <Box>
-        <AppRoute />
+        <UserContextProvider>
+          <AppRoute />
+        </UserContextProvider>
       </Box>
     </ThemeProvider>
   );
