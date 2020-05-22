@@ -1,12 +1,14 @@
-## production
 FROM node:alpine
 
-WORKDIR /usr/app
+# fix bug with cra
+ENV CI=true 
 
-COPY package*.json ./
+WORKDIR /app
 
-RUN npm install --silent
+COPY package.json ./
 
-COPY . .
+RUN npm install
+
+COPY ./ ./
 
 CMD ["npm", "start"]
