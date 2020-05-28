@@ -1,5 +1,5 @@
 import React from 'react';
-import { PieChart, Pie, Cell, Legend } from 'recharts';
+import { PieChart, Pie, Cell } from 'recharts';
 
 const data = [
   { name: 'Lendings', value: 400 },
@@ -31,21 +31,22 @@ const renderCustomizedLabel = ({
       textAnchor={x > cx ? 'start' : 'end'}
       dominantBaseline="central"
     >
-      {`${(percent * 100).toFixed(0)}%`}
+      {`
+      ${(percent * 100).toFixed(0)}%`}
     </text>
   );
 };
 
 export const Chart = () => {
   return (
-    <PieChart width={400} height={400}>
+    <PieChart width={300} height={300}>
       <Pie
         data={data}
-        cx={200}
-        cy={200}
+        cx={150}
+        cy={150}
         labelLine={false}
         label={renderCustomizedLabel}
-        outerRadius={150}
+        outerRadius={120}
         fill="#8884d8"
         dataKey="value"
       >
@@ -53,7 +54,6 @@ export const Chart = () => {
           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
         ))}
       </Pie>
-      <Legend />
     </PieChart>
   );
 };
