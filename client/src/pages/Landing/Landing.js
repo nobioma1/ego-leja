@@ -1,20 +1,15 @@
-import {
-  Box,
-  Image,
-  Flex,
-  Button,
-  Stack,
-  Text,
-  useDisclosure,
-} from '@chakra-ui/core';
-import React from 'react';
+import { Box, Flex, Text, useDisclosure } from '@chakra-ui/core';
+import React, { useContext } from 'react';
+import { Redirect } from 'react-router-dom';
 
-import logo from 'assets/logo.svg';
 import { Login } from './Login';
 import { Signup } from './Signup';
 import { TopBar } from './TopBar';
+import { AuthContext } from 'context/AuthContext';
 
 export const Landing = () => {
+  const { isAuthenticated } = useContext(AuthContext);
+
   const {
     isOpen: isOpenLogin,
     onOpen: onOpenLogin,
@@ -26,8 +21,7 @@ export const Landing = () => {
     onClose: onCloseSignUp,
   } = useDisclosure();
 
-  const loginBtnRef = React.useRef();
-  const signUpBtnRef = React.useRef();
+  if (isAuthenticated) return <Redirect to="/home" />;
 
   return (
     <>
@@ -40,12 +34,7 @@ export const Landing = () => {
           backgroundPosition="right bottom"
           backgroundSize={['50%', '20%', '50%']}
         >
-          <TopBar
-            onOpenLogin={onOpenLogin}
-            onOpenSignup={onOpenSignup}
-            loginBtnRef={loginBtnRef}
-            signUpBtnRef={signUpBtnRef}
-          />
+          <TopBar onOpenLogin={onOpenLogin} onOpenSignup={onOpenSignup} />
           <Flex
             w={['100%', '90%']}
             h="80%"
@@ -79,12 +68,8 @@ export const Landing = () => {
           display={['none', 'block']}
         />
       </Flex>
-      <Login isOpen={isOpenLogin} onClose={onCloseLogin} btnRef={loginBtnRef} />
-      <Signup
-        isOpen={isOpenSignUp}
-        onClose={onCloseSignUp}
-        btnRef={signUpBtnRef}
-      />
+      <Login isOpen={isOpenLogin} onClose={onCloseLogin} />
+      <Signup isOpen={isOpenSignUp} onClose={onCloseSignUp} />
     </>
   );
 };
