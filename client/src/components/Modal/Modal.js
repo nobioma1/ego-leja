@@ -10,17 +10,12 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/core';
 
-export const Modal = ({ isOpen, onClose, btnRef, title, children }) => {
+export const Modal = ({ isOpen, onClose, title, children }) => {
   return (
     <>
       <SlideIn in={isOpen}>
         {(styles) => (
-          <UIModal
-            finalFocusRef={btnRef}
-            onClose={onClose}
-            isOpen={true}
-            isCentered
-          >
+          <UIModal onClose={onClose} isOpen={true} isCentered>
             <ModalOverlay opacity={styles.opacity} />
             <ModalContent pb={3} {...styles}>
               <ModalHeader>{title}</ModalHeader>
