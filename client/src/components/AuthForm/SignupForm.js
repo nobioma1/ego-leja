@@ -1,16 +1,11 @@
-import React, { useState } from 'react';
-import { Formik, Field } from 'formik';
+import React, { useState, useContext } from 'react';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { InputField } from 'components/Shared';
-import {
-  InputRightElement,
-  Button,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  Select,
-} from '@chakra-ui/core';
+import { InputRightElement, Button } from '@chakra-ui/core';
+import { useRequest } from 'hooks/useRequest';
+import { AuthContext } from 'context/AuthContext';
 
 const SignupSchema = Yup.object().shape({
   fullName: Yup.string()
@@ -24,6 +19,11 @@ const SignupSchema = Yup.object().shape({
 
 export const SignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { setLogin } = useContext(AuthContext);
+  const { doRequest, errors } = useRequest({
+    method: 'post',
+    url: '/api/users/signup',
+  });
 
   return (
     <Formik
@@ -33,27 +33,20 @@ export const SignupForm = () => {
         password: '',
       }}
       validationSchema={SignupSchema}
-      onSubmit={(values, actions) => {
-        console.log('submitted');
+      onSubmit={async (values, { setSubmitting }) => {
+        setSubmitting(true);
+        await doRequest({
+          values,
+          onSuccess: (user) => {
+            setSubmitting(false);
+            setLogin(user);
+          },
+        });
       }}
     >
       {(props) => (
         <form onSubmit={props.handleSubmit}>
-          <Field name="title">
-            {({ field, form }) => (
-              <FormControl
-                isInvalid={form.errors[field.name] && form.touched[field.name]}
-              >
-                <FormLabel htmlFor={field.name}>Title</FormLabel>
-                <Select {...field} id={field.name} placeholder="select a title">
-                  <option value="Mr.">Mr.</option>
-                  <option value="Mrs.">Mrs.</option>
-                  <option value="Miss.">Miss.</option>
-                </Select>
-                <FormErrorMessage>{form.errors[field.name]}</FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
+          {errors}
           <InputField
             type="text"
             name="fullName"
@@ -82,8 +75,13 @@ export const SignupForm = () => {
               </Button>
             </InputRightElement>
           </InputField>
-
-          <Button type="submit" variantColor="green" size="lg" width="full">
+          <Button
+            type="submit"
+            variantColor="green"
+            size="lg"
+            width="full"
+            isLoading={props.isSubmitting}
+          >
             Sign Up
           </Button>
         </form>
