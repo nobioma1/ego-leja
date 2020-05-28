@@ -6,11 +6,9 @@ import {
   DrawerCloseButton,
   DrawerHeader,
   DrawerBody,
-  DrawerFooter,
-  Button,
 } from '@chakra-ui/core';
 
-export const DrawerLayout = ({ children, disclosure, onSubmit, title }) => {
+export const DrawerLayout = ({ children, disclosure, title }) => {
   const { isOpen, onClose } = disclosure;
 
   return (
@@ -20,17 +18,7 @@ export const DrawerLayout = ({ children, disclosure, onSubmit, title }) => {
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerHeader borderBottomWidth="1px">{title}</DrawerHeader>
-
           <DrawerBody>{children}</DrawerBody>
-
-          <DrawerFooter borderTopWidth="1px">
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button type="button" variantColor="green" onClick={onSubmit}>
-              Submit
-            </Button>
-          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>
