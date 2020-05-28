@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
 import { Button, InputRightElement } from '@chakra-ui/core';
+import React, { useState, useContext } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { InputField } from 'components/Shared';
+import { useRequest } from 'hooks/useRequest';
+import { AuthContext } from 'context/AuthContext';
 
 const LoginFormSchema = Yup.object().shape({
   email: Yup.string().email('email is invalid').required('email is required'),
@@ -12,6 +14,11 @@ const LoginFormSchema = Yup.object().shape({
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { setLogin } = useContext(AuthContext);
+  const { doRequest, errors } = useRequest({
+    method: 'post',
+    url: '/api/users/signin',
+  });
 
   return (
     <Formik
@@ -20,12 +27,20 @@ export const LoginForm = () => {
         password: '',
       }}
       validationSchema={LoginFormSchema}
-      onSubmit={(values, actions) => {
-        console.log('submitted');
+      onSubmit={async (values, { setSubmitting }) => {
+        setSubmitting(true);
+        await doRequest({
+          values,
+          onSuccess: (user) => {
+            setSubmitting(false);
+            setLogin(user);
+          },
+        });
       }}
     >
       {(props) => (
         <form onSubmit={props.handleSubmit}>
+          {errors}
           <InputField
             type="email"
             name="email"
@@ -48,7 +63,13 @@ export const LoginForm = () => {
               </Button>
             </InputRightElement>
           </InputField>
-          <Button type="submit" variantColor="green" size="lg" width="full">
+          <Button
+            type="submit"
+            variantColor="green"
+            size="lg"
+            width="full"
+            isLoading={props.isSubmitting}
+          >
             Sign In
           </Button>
         </form>
