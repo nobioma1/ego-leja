@@ -13,7 +13,7 @@ export const emailDoesNotExist = async (
   });
 
   if (user) {
-    throw new BadRequestError(`email ${user.email} is already in use`);
+    throw new BadRequestError(`Email is already in use`);
   }
 
   next();
