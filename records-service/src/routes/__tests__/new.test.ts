@@ -15,6 +15,7 @@ describe('[POST /api/records] CREATE New Record', () => {
         recordType: '',
         amount: '',
         description: 'string',
+        dueDate: new Date(),
         isBadDebt: false,
       })
       .expect(400);
@@ -39,6 +40,7 @@ describe('[POST /api/records] CREATE New Record', () => {
         amount: '2500.0',
         description: 'Some description',
         isBadDebt: false,
+        dueDate: '',
       })
       .expect(400);
   });
@@ -52,6 +54,7 @@ describe('[POST /api/records] CREATE New Record', () => {
         amount: 2500.0,
         description: 'Some description',
         isBadDebt: false,
+        dueDate: new Date(),
       })
       .expect(401);
   });
@@ -68,6 +71,7 @@ describe('[POST /api/records] CREATE New Record', () => {
         amount: 30000,
         description: 'Some description',
         isBadDebt: false,
+        dueDate: new Date(),
       });
 
     expect(res.status).toBe(201);

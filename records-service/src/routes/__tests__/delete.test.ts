@@ -19,6 +19,7 @@ const create = async ({
     amount: 30000,
     description: 'Some description',
     isBadDebt: false,
+    dueDate: new Date(),
     recordType,
     userId,
   });
