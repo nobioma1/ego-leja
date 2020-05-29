@@ -1,9 +1,11 @@
 import React from 'react';
-import { ButtonGroup, Button, useToast } from '@chakra-ui/core';
+import { ButtonGroup, Button } from '@chakra-ui/core';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { InputField } from 'components/Shared';
+import { useRequest } from 'hooks/useRequest';
+import { userTypes } from 'context/UserContext';
 
 const ChangeNameSchema = Yup.object().shape({
   fullName: Yup.string()
@@ -12,6 +14,10 @@ const ChangeNameSchema = Yup.object().shape({
 });
 
 export const UserForm = ({ user, dispatch, onClose }) => {
+  const { doRequest } = useRequest({
+    method: 'put',
+    url: '/api/users',
+  });
 
   return (
     <Formik
@@ -22,7 +28,14 @@ export const UserForm = ({ user, dispatch, onClose }) => {
       validationSchema={ChangeNameSchema}
       onSubmit={async (values, { setSubmitting }) => {
         setSubmitting(true);
-        setSubmitting(false);
+        await doRequest({
+          values,
+          onSuccess: (user) => {
+            onClose();
+            setSubmitting(false);
+            dispatch({ type: userTypes.setUser, payload: user });
+          },
+        });
       }}
     >
       {(props) => (

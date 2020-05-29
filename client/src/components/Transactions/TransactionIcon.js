@@ -2,15 +2,19 @@ import React from 'react';
 import { Box } from '@chakra-ui/core';
 import { FiSend, FiRepeat, FiTrendingUp, FiMinusCircle } from 'react-icons/fi';
 
-export const TransactionIcon = ({ type }) => {
+const Icon = ({ El, isBadDebt }) => {
+  return <Box as={El} color={isBadDebt && 'red.500'} size={5} />;
+};
+
+export const TransactionIcon = ({ type, ...props }) => {
   switch (type.toLowerCase()) {
     case 'lending':
-      return <Box as={FiSend} size={5} />;
+      return <Icon El={FiSend} {...props} />;
     case 'borrowing':
-      return <Box as={FiRepeat} size={5} />;
+      return <Icon El={FiRepeat} {...props} />;
     case 'pay':
-      return <Box as={FiTrendingUp} size={5} />;
+      return <Icon El={FiTrendingUp} {...props} />;
     default:
-      return <Box as={FiMinusCircle} size={5} />;
+      return <Icon El={FiMinusCircle} {...props} />;
   }
 };

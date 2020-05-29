@@ -6,9 +6,9 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-import history from '../../history';
 import { Home } from 'pages/Home';
 import { Landing } from 'pages/Landing';
+import history from '../../history';
 import { ProtectedRoute } from './ProtectedRoute';
 
 export const AppRoute = () => {

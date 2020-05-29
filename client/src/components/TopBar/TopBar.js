@@ -15,6 +15,7 @@ export const TopBar = ({ onClick }) => {
       h="fit-content"
       justifyContent="space-between"
       pb={4}
+      px={2}
       w="100%"
     >
       <Image

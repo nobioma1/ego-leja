@@ -4,7 +4,9 @@ import { Flex, Box, Text } from '@chakra-ui/core';
 import { UserContext } from 'context/UserContext';
 
 export const User = () => {
-  const [{ user }] = useContext(UserContext);
+  const {
+    state: { user },
+  } = useContext(UserContext);
 
   return (
     <Box ml={1}>

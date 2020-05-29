@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Stack, InputLeftAddon, Box, Button, useToast } from '@chakra-ui/core';
 import { Formik } from 'formik';
 import { FaCoins } from 'react-icons/fa';
@@ -13,36 +13,30 @@ import {
   DatePickerField,
 } from 'components/Shared';
 import { useRequest } from 'hooks/useRequest';
-import { AppContext } from 'context/AppContext';
 import { TRANSACTION_TYPE } from './transaction.types';
 
 const AddTransactionSchema = Yup.object().shape({
-  amount: Yup.number().positive().required('Provide amount for transaction'),
   name: Yup.string().required('name is required'),
   description: Yup.string(),
   dueDate: Yup.date().required('Set a due date'),
-  recordType: Yup.mixed()
-    .oneOf(Object.keys(TRANSACTION_TYPE))
-    .required('Transaction type is required'),
 });
 
-export const AddTransaction = () => {
-  const { AddTrxDisclosure, addTransaction } = useContext(AppContext);
-
+export const UpdateTransaction = ({ disclosure, record, onEditSuccess }) => {
   const toast = useToast();
   const { doRequest } = useRequest({
-    method: 'post',
-    url: '/api/records',
+    method: 'put',
+    url: `/api/records/${record.id}`,
   });
 
   return (
     <Formik
+      enableReinitialize={true}
       initialValues={{
-        amount: '',
-        name: '',
-        description: '',
-        dueDate: new Date(),
-        recordType: '',
+        amount: record.amount,
+        name: record.name,
+        description: record.description,
+        dueDate: new Date(record.dueDate),
+        recordType: record.recordType,
       }}
       validationSchema={AddTransactionSchema}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
@@ -52,11 +46,11 @@ export const AddTransaction = () => {
           onSuccess: (trx) => {
             setSubmitting(false);
             resetForm();
-            AddTrxDisclosure.onClose();
-            addTransaction(trx);
+            onEditSuccess(trx);
+            disclosure.onClose();
             toast({
-              title: 'Transaction created',
-              description: `Your new ${trx.recordType} TRX has been added.`,
+              title: 'Transaction Updated',
+              description: `${trx.name} has been updated.`,
               status: 'success',
               duration: 3000,
               position: 'top-right',
@@ -66,7 +60,7 @@ export const AddTransaction = () => {
       }}
     >
       {(props) => (
-        <DrawerLayout disclosure={AddTrxDisclosure} title="Add Transaction">
+        <DrawerLayout disclosure={disclosure} title="Update Transaction">
           <form onSubmit={props.handleSubmit}>
             <InputField
               type="text"
@@ -81,6 +75,8 @@ export const AddTransaction = () => {
                 name: item[0],
                 value: item[1],
               }))}
+              isDisabled
+              subInfo="Transaction Type cannot be edited"
               placeholder="What type of transaction?"
             />
             <AddOnInputField
@@ -88,6 +84,8 @@ export const AddTransaction = () => {
               name="amount"
               label="Amount"
               placeholder="50.00"
+              subInfo="Amount cannot be edited"
+              isDisabled
             >
               <InputLeftAddon
                 children={<Box as={FaCoins} color="gray.300" />}
@@ -108,11 +106,11 @@ export const AddTransaction = () => {
                 type="submit"
                 variantColor="green"
                 isLoading={props.isSubmitting}
-                loadingText="Adding Transaction..."
+                loadingText="Saving Transaction..."
               >
-                Submit
+                Save Changes
               </Button>
-              <Button variant="outline" onClick={AddTrxDisclosure.onClose}>
+              <Button variant="outline" onClick={disclosure.onClose}>
                 Cancel
               </Button>
             </Stack>

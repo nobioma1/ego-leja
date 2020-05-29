@@ -5,6 +5,9 @@ import {
   FormLabel,
   Select,
   FormErrorMessage,
+  Flex,
+  Icon,
+  Text,
 } from '@chakra-ui/core';
 import { Field } from 'formik';
 
@@ -14,6 +17,7 @@ export const SelectField = ({
   options,
   placeholder,
   required,
+  subInfo,
   ...props
 }) => {
   return (
@@ -25,6 +29,12 @@ export const SelectField = ({
             isRequired={required}
           >
             <FormLabel htmlFor={field.name}>{label}</FormLabel>
+            {subInfo && (
+              <Flex alignItems="center" mb={1} opacity="0.7">
+                <Icon name="info" size="18px" color="yellow.500" mr={3} />
+                <Text>{subInfo}</Text>
+              </Flex>
+            )}
             <Select
               {...field}
               {...props}

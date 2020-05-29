@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, Box } from '@chakra-ui/core';
 
-import { RecentTransactionCard } from './RecentTransactionCard';
+import { RecentTransactionCard } from 'components/Transactions/RecentTransactionCard';
 
 export const RecentTransactions = () => {
   return (

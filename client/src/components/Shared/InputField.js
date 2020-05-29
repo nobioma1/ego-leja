@@ -5,6 +5,9 @@ import {
   InputGroup,
   FormErrorMessage,
   FormControl,
+  Flex,
+  Icon,
+  Text,
 } from '@chakra-ui/core';
 import { Field } from 'formik';
 import React from 'react';
@@ -19,7 +22,7 @@ export const InputField = ({
   ...props
 }) => {
   return (
-    <Box marginY={3}>
+    <Box marginY={2}>
       <Field name={name}>
         {({ field, form }) => (
           <FormControl
@@ -52,6 +55,7 @@ export const AddOnInputField = ({
   placeholder,
   children,
   required,
+  subInfo,
   ...props
 }) => {
   return (
@@ -63,6 +67,12 @@ export const AddOnInputField = ({
             isRequired={required}
           >
             {label && <FormLabel htmlFor={field.name}>{label}</FormLabel>}
+            {subInfo && (
+              <Flex alignItems="center" mb={1} opacity="0.7">
+                <Icon name="info" size="18px" color="yellow.500" mr={3} />
+                <Text>{subInfo}</Text>
+              </Flex>
+            )}
             <InputGroup>
               {children}
               <Input

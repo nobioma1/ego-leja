@@ -1,27 +1,14 @@
 import React, { useContext } from 'react';
-import {
-  Box,
-  Popover,
-  PopoverTrigger,
-  IconButton,
-  PopoverContent,
-  PopoverArrow,
-  PopoverCloseButton,
-  Flex,
-  Avatar,
-  Text,
-} from '@chakra-ui/core';
-import FocusLock from 'react-focus-lock';
+import { Box, Flex, Avatar, Text, Button } from '@chakra-ui/core';
 import moment from 'moment';
 
-import { UserForm } from './UserForm';
 import { UserContext } from 'context/UserContext';
+import { NameEditable } from './NameEditable';
 
 export const User = () => {
-  const [{ user }, dispatch] = useContext(UserContext);
-  const [isOpen, setIsOpen] = React.useState(false);
-  const open = () => setIsOpen(true);
-  const close = () => setIsOpen(false);
+  const {
+    state: { user },
+  } = useContext(UserContext);
 
   return (
     <Flex my={3} py={[0, 0, 3]}>
@@ -32,37 +19,24 @@ export const User = () => {
       >
         <Avatar name={user.fullName} size="2xl" />
       </Flex>
-      <Flex pl={3} w={['auto', 'auto', '75%']} position="relative">
-        <Box mb={2}>
-          <Flex>
-            <Text fontSize="2xl" mr={3}>
-              {user.fullName}
+      <Flex pl={3} w={['auto', 'auto', '75%']} direction="column">
+        <NameEditable fullName={user.fullName} />
+        <Box mt={2}>
+          <Flex alignItems="center" flexWrap="wrap" my={2}>
+            <Text fontSize="xl" mr={3}>
+              {user.email}
             </Text>
-            <Popover
-              isOpen={isOpen}
-              onOpen={open}
-              onClose={close}
-              placement="right"
-              closeOnBlur={false}
-            >
-              <PopoverTrigger>
-                <IconButton size="sm" icon="edit" />
-              </PopoverTrigger>
-              <PopoverContent zIndex={4} p={5}>
-                <FocusLock returnFocus persistentFocus={false}>
-                  <PopoverArrow bg="white" />
-                  <PopoverCloseButton />
-                  <UserForm user={user} dispatch={dispatch} onClose={close} />
-                </FocusLock>
-              </PopoverContent>
-            </Popover>
+            <Button variant="outline" variantColor="green" size="xs">
+              Verify Email
+            </Button>
           </Flex>
-          <Text>{user.email}</Text>
+          <Text>
+            Joined:{' '}
+            <Text as="span">
+              {moment(user.createdAt).format('MMMM DD, YYYY')}
+            </Text>
+          </Text>
         </Box>
-        <Text position="absolute" bottom={0}>
-          Joined: <br />
-          {moment(user.createdAt).format('MMMM DD, YYYY')}
-        </Text>
       </Flex>
     </Flex>
   );

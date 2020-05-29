@@ -6,10 +6,11 @@ import {
   FormErrorMessage,
   Flex,
   Icon,
-  Text,
+  Tag,
 } from '@chakra-ui/core';
 import DatePicker from 'react-datepicker';
 import { Field } from 'formik';
+import moment from 'moment';
 
 import './datePickerField.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -42,7 +43,11 @@ export const DatePickerField = ({
                   minDate={minDate}
                   selected={field.value}
                 />
-                <Text ml={3}>Today</Text>
+                <Tag variantColor="green" ml={2}>
+                  {field.value.getDate() === new Date().getDate()
+                    ? 'Today'
+                    : moment(field.value).endOf('future').fromNow()}
+                </Tag>
               </Flex>
             </Flex>
             <FormErrorMessage>{form.errors[field.name]}</FormErrorMessage>

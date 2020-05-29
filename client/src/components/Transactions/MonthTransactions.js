@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, Box, Flex } from '@chakra-ui/core';
 
 import { AmountStat } from 'components/AmountStat';
-import { Chart } from './Chart';
+import { Chart } from 'components/Chart';
 
 export const MonthTransactions = () => {
   return (
