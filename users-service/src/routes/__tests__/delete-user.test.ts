@@ -5,17 +5,17 @@ import { User } from '../../models/user';
 
 const request = supertest(server);
 
-describe('[DELETE /api/users] Delete User Account', () => {
+describe('[POST /api/users/delete-user] Delete User Account', () => {
   it('returns an error 400 if password field is not valid', async () => {
     const token = await global.signin();
     await request
-      .delete('/api/users')
+      .post('/api/users/delete-user')
       .set('Cookie', token)
       .send({})
       .expect(400);
 
     await request
-      .delete('/api/users')
+      .post('/api/users/delete-user')
       .set('Cookie', token)
       .send({ password: '' })
       .expect(400);
@@ -23,14 +23,14 @@ describe('[DELETE /api/users] Delete User Account', () => {
 
   it('return a status of 401 if users is not authenticated', async () => {
     await request
-      .delete('/api/users')
+      .post('/api/users/delete-user')
       .send({ password: 'somepassword' })
       .expect(401);
   });
 
   it('validates user password', async () => {
     const res = await request
-      .delete('/api/users')
+      .post('/api/users/delete-user')
       .set('Cookie', await global.signin())
       .send({ password: 'wrongpassword' });
 
@@ -47,7 +47,7 @@ describe('[DELETE /api/users] Delete User Account', () => {
     expect(users).toHaveLength(1);
 
     const res = await request
-      .delete('/api/users')
+      .post('/api/users/delete-user')
       .set('Cookie', token)
       .send({ password: 'password' });
 

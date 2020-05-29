@@ -7,8 +7,8 @@ import { Password } from '../helpers/password';
 
 const router = Router();
 
-router.delete(
-  '/api/users',
+router.post(
+  '/api/users/delete-user',
   requireAuth,
   validateFields(deleteUserSchema),
   async (req: Request, res: Response) => {
@@ -27,6 +27,7 @@ router.delete(
     }
 
     await user.remove();
+    req.session = null;
 
     res.status(204).end();
   }
