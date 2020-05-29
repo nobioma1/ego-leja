@@ -11,14 +11,22 @@ router.post(
   requireAuth,
   validateFields(recordSchema),
   async (req: Request, res: Response) => {
-    const { name, recordType, amount, description, isBadDebt } = req.body;
-
-    const record = Record.build({
+    const {
       name,
       recordType,
       amount,
       description,
       isBadDebt,
+      dueDate,
+    } = req.body;
+
+    const record = Record.build({
+      amount,
+      description,
+      dueDate,
+      isBadDebt,
+      name,
+      recordType,
       userId: req.currentUser.id,
     });
     await record.save();

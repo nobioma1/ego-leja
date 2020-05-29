@@ -4,11 +4,12 @@ import { RecordType } from './types/record-type';
 import { RecordDoc } from './types/record-doc';
 
 interface RecordAttrs {
-  name: string;
-  recordType: RecordType;
   amount: number;
   description: string;
+  dueDate: Date;
   isBadDebt: boolean;
+  name: string;
+  recordType: RecordType;
   userId: string;
 }
 
@@ -34,6 +35,10 @@ const recordSchema = new mongoose.Schema(
     },
     description: {
       type: String,
+    },
+    dueDate: {
+      type: Date,
+      required: true,
     },
     isBadDebt: {
       type: Boolean,
