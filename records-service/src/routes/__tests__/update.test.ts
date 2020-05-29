@@ -14,6 +14,7 @@ const create = async (userId: string) => {
     amount: 30000,
     description: 'Some description',
     isBadDebt: false,
+    dueDate: new Date(),
     userId,
   });
   await record.save();
@@ -66,8 +67,6 @@ describe('[PUT /api/records] UPDATE New Record', () => {
       .put(`/api/records/${generateID()}`)
       .send({
         name: 'Johnny Loe',
-        recordType: RecordType.LEND,
-        amount: 2500.0,
         description: 'Some description',
         isBadDebt: false,
       })
@@ -81,8 +80,6 @@ describe('[PUT /api/records] UPDATE New Record', () => {
       .set('Cookie', global.signin().cookie)
       .send({
         name: 'Trinna Trip',
-        recordType: RecordType.BORROW,
-        amount: 30000,
         description: 'Some description',
         isBadDebt: false,
       })
@@ -96,8 +93,6 @@ describe('[PUT /api/records] UPDATE New Record', () => {
       .set('Cookie', global.signin().cookie)
       .send({
         name: 'Trinna Trip',
-        recordType: RecordType.BORROW,
-        amount: 30000,
         description: 'Some description',
         isBadDebt: false,
       })
@@ -113,8 +108,7 @@ describe('[PUT /api/records] UPDATE New Record', () => {
       .set('Cookie', user.cookie)
       .send({
         name: 'Sunda Grams',
-        recordType: RecordType.LEND,
-        amount: 30000,
+        dueDate: new Date(),
         description: 'Some description',
         isBadDebt: false,
       });
@@ -122,6 +116,7 @@ describe('[PUT /api/records] UPDATE New Record', () => {
     expect(res.status).toBe(200);
     expect(res.body.name).toEqual('Sunda Grams');
     expect(res.body.id).toEqual(String(record.id));
-    expect(res.body.recordType).toEqual(RecordType.LEND);
+    expect(res.body.amount).toEqual(record.amount);
+    expect(res.body.recordType).toEqual(record.recordType);
   });
 });

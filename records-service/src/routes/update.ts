@@ -1,7 +1,7 @@
 import { Router, Response, Request } from 'express';
 import { requireAuth, validateFields } from '@ego-leja/common';
 
-import { recordSchema } from '../schema/record-schema';
+import { updateSchema } from '../schema/update-schema';
 import { recordExists } from '../middlewares/record-exists';
 
 const router = Router();
@@ -10,15 +10,13 @@ router.put(
   '/api/records/:recordId',
   requireAuth,
   recordExists,
-  validateFields(recordSchema),
+  validateFields(updateSchema),
   async (req: Request, res: Response) => {
-    const { name, recordType, amount, description, isBadDebt } = req.body;
+    const { name, description, isBadDebt } = req.body;
     const record = req.record;
 
     record.set({
       name,
-      recordType,
-      amount,
       description,
       isBadDebt,
     });
