@@ -1,5 +1,6 @@
 import { server } from './api/server';
 import { config } from './config';
+import mongoose from 'mongoose';
 
 async function startServer() {
   if (!config.JWT_KEY) {
@@ -9,6 +10,12 @@ async function startServer() {
   if (!config.MONGO_DB_URI) {
     throw new Error('MONGO_DB_URI not provided');
   }
+
+  await mongoose.connect(config.MONGO_DB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  });
 
   server.listen(config.PORT, () => {
     console.log(`####🚀 Server listening on port: ${config.PORT} 🚀 ####`);
