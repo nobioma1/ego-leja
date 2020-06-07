@@ -11,6 +11,5 @@ export interface RecordCreatedEvent {
     name: string;
     recordType: string;
     userId: string;
-    createdAt: Date;
   };
 }
