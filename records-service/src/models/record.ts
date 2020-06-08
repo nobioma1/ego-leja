@@ -1,8 +1,16 @@
 import mongoose from 'mongoose';
+import { RecordType } from '@ego-leja/common';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
-import { RecordType } from './types/record-type';
-import { RecordDoc } from './types/record-doc';
+export interface RecordDoc extends mongoose.Document {
+  name: string;
+  recordType: RecordType;
+  amount: number;
+  description: string;
+  isBadDebt: boolean;
+  userId: string;
+  dueDate: Date;
+}
 
 interface RecordAttrs {
   amount: number;
