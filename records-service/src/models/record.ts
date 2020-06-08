@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 import { RecordType } from './types/record-type';
 import { RecordDoc } from './types/record-doc';
@@ -62,6 +63,8 @@ const recordSchema = new mongoose.Schema(
 );
 
 recordSchema.set('versionKey', 'version');
+
+recordSchema.plugin(updateIfCurrentPlugin);
 
 recordSchema.statics.build = (attrs: RecordAttrs): RecordDoc => {
   return new Record(attrs);
