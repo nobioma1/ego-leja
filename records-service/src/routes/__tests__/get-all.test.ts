@@ -3,7 +3,7 @@ import supertest from 'supertest';
 import { Record } from '../../models/record';
 import { server } from '../../api/server';
 import { generateID } from '../../test/helpers/generate-id';
-import { RecordType } from '../../models/types/record-type';
+import { RecordType } from '@ego-leja/common';
 
 const request = supertest(server);
 

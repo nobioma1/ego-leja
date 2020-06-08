@@ -5,6 +5,7 @@ import { generateID } from '../../test/helpers/generate-id';
 import { createRecord } from '../../test/helpers/create-record';
 import { Transaction } from '../../models/transaction';
 import { Record } from '../../models/record';
+import { RecordType } from '@ego-leja/common';
 
 const request = supertest(server);
 
@@ -47,6 +48,7 @@ describe('[POST /api/transactions/recordId] NEW Transaction', () => {
     const user = global.signin();
     const record = await createRecord({
       userId: user.id,
+      recordType: RecordType.BORROW,
       amount: 3000,
       payable: 1200,
     });
@@ -127,14 +129,14 @@ describe('[POST /api/transactions/recordId] NEW Transaction', () => {
   it('Keep record of multiple transactions to a record for user', async () => {
     const user = global.signin(); // Sign In User
 
-    // xUser Signin
-    const xUser = global.signin();
-    // Create XUser Record
-    const xRec = await createRecord({ userId: xUser.id, amount: 200 });
-    // Make transaction for xUser
+    // otherUser Signin
+    const otherUser = global.signin();
+    // Create otherUser Record
+    const xRec = await createRecord({ userId: otherUser.id, amount: 200 });
+    // Make transaction for otherUser
     await request
       .post(`/api/transactions/${xRec.id}`)
-      .set('Cookie', xUser.cookie)
+      .set('Cookie', otherUser.cookie)
       .send({ amount: 100 })
       .expect(201);
 
