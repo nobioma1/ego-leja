@@ -1,9 +1,10 @@
 import supertest from 'supertest';
+import { RecordType } from '@ego-leja/common';
 
 import { Record } from '../../models/record';
 import { server } from '../../api/server';
 import { generateID } from '../../test/helpers/generate-id';
-import { RecordType } from '../../models/types/record-type';
+import { natsWrapper } from '../../utils/nats-wrapper';
 
 const request = supertest(server);
 
@@ -74,5 +75,18 @@ describe('[DELETE /api/records/recordId] DELETE Single Record', () => {
 
     records = await Record.find();
     expect(records).toHaveLength(1);
+  });
+
+  it('publishes an event', async () => {
+    const user = global.signin();
+
+    const record = await create({ userId: user.id });
+    await create({ userId: generateID() });
+
+    await request
+      .delete(`/api/records/${record.id}`)
+      .set('Cookie', user.cookie);
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
   });
 });

@@ -1,9 +1,10 @@
 import supertest from 'supertest';
 
 import { server } from '../../api/server';
-import { RecordType } from '../../models/types/record-type';
+import { RecordType } from '@ego-leja/common';
 import { Record } from '../../models/record';
 import { generateID } from '../../test/helpers/generate-id';
+import { natsWrapper } from '../../utils/nats-wrapper';
 
 const request = supertest(server);
 
@@ -118,5 +119,22 @@ describe('[PUT /api/records] UPDATE New Record', () => {
     expect(res.body.id).toEqual(String(record.id));
     expect(res.body.amount).toEqual(record.amount);
     expect(res.body.recordType).toEqual(record.recordType);
+  });
+
+  it('publishes an event', async () => {
+    const user = global.signin();
+    const record = await create(user.id);
+
+    await request
+      .put(`/api/records/${record.id}`)
+      .set('Cookie', user.cookie)
+      .send({
+        name: 'Sunda Grams',
+        dueDate: new Date(),
+        description: 'Some description',
+        isBadDebt: false,
+      });
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
   });
 });

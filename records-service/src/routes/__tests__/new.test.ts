@@ -1,7 +1,8 @@
 import supertest from 'supertest';
 
 import { server } from '../../api/server';
-import { RecordType } from '../../models/types/record-type';
+import { RecordType } from '@ego-leja/common';
+import { natsWrapper } from '../../utils/nats-wrapper';
 
 const request = supertest(server);
 
@@ -76,5 +77,20 @@ describe('[POST /api/records] CREATE New Record', () => {
 
     expect(res.status).toBe(201);
     expect(res.body.userId).toBe(user.id);
+  });
+
+  it('publishes an event', async () => {
+    const user = global.signin();
+
+    await request.post('/api/records').set('Cookie', user.cookie).send({
+      name: 'Trinna Trip',
+      recordType: RecordType.BORROW,
+      amount: 30000,
+      description: 'Some description',
+      isBadDebt: false,
+      dueDate: new Date(),
+    });
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
   });
 });
