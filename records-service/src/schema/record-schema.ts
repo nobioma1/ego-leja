@@ -1,6 +1,5 @@
 import Joi from '@hapi/joi';
-
-import { RecordType } from '../models/types/record-type';
+import { RecordType } from '@ego-leja/common';
 
 export const recordSchema = Joi.object({
   amount: Joi.number().label('Amount').positive().required(),
