@@ -20,7 +20,7 @@ router.get('/api/records', requireAuth, async (req: Request, res: Response) => {
   const records = await Record.find({
     userId: req.currentUser.id,
     ...queryParams,
-  });
+  }).sort('-createdAt');
 
   res.status(200).send(records);
 });
