@@ -34,7 +34,7 @@ export const Transaction = () => {
 
   const { doRequest } = useRequest({
     method: 'get',
-    url: `/api/records/${params.recId}`,
+    url: `/api/transactions/${params.recId}`,
   });
 
   const { doRequest: doDeleteRequest, isLoading: deleteLoading } = useRequest({
@@ -42,12 +42,16 @@ export const Transaction = () => {
     url: `/api/records/${params.recId}`,
   });
 
-  useEffect(() => {
+  const getTransaction = () => {
     doRequest({
       onSuccess: (rec) => {
         setRecord(rec);
       },
     });
+  };
+
+  useEffect(() => {
+    getTransaction();
   }, []);
 
   const onDeleteHandler = async () => {
@@ -107,7 +111,7 @@ export const Transaction = () => {
             justifyContent="space-between"
           >
             <Box w={['full', 'full', '70%']}>
-              <TransactionTable />
+              <TransactionTable transactions={record.transactions} />
               {record.recordType === TRANSACTION_TYPE.BORROW && (
                 <Flex w="full" justifyContent="center" py={3}>
                   <Button
@@ -140,13 +144,19 @@ export const Transaction = () => {
                 </Box>
                 <Box>
                   <Box h="35px" verticalAlign="middle">
-                    <Text fontSize="xl">{record.amount}</Text>
+                    <Text fontSize="xl" textAlign="right">
+                      {record.amount}
+                    </Text>
                   </Box>
                   <Box h="35px" verticalAlign="middle">
-                    <Text fontSize="xl">122,434</Text>
+                    <Text fontSize="xl" textAlign="right">
+                      {record.amount - record.payable}
+                    </Text>
                   </Box>
                   <Box h="35px" margin="auto auto" mt={1}>
-                    <Text fontSize="xl">123,354</Text>
+                    <Text fontSize="xl" textAlign="right">
+                      {record.payable}
+                    </Text>
                   </Box>
                 </Box>
               </Flex>
@@ -161,7 +171,9 @@ export const Transaction = () => {
               </Box>
               <Box textAlign={['center', 'center', 'right']}>
                 <Text opacity="0.7">Amount Due</Text>
-                <Text fontSize="xl">{symbols['NGN']} 20,000</Text>
+                <Text fontSize="xl">
+                  {symbols['NGN']} {record.payable}
+                </Text>
                 <Text>{moment(record.dueDate).format('DD MMM, YYYY')}</Text>
               </Box>
               <Divider />
@@ -177,15 +189,25 @@ export const Transaction = () => {
           </Flex>
           <Modal title={record.name} {...offsetDisclosure}>
             {record.recordType === TRANSACTION_TYPE.BORROW && (
-              <OffsetForm amount={record.amount} currency="NGN" />
+              <OffsetForm
+                payable={record.payable}
+                recordId={record.id}
+                onClose={offsetDisclosure.onClose}
+                onSuccess={getTransaction}
+                currency="NGN"
+              />
             )}
           </Modal>
           <Modal title="Delete Transaction" {...deleteDisclosure}>
             <Box fontSize="md" textAlign="center" mb={3}>
-              Are you sure you want to delete transaction?
+              <Text>Are you sure you want to delete transaction?</Text>
+              <Text as="small">
+                This actions will remove transaction and all offset record made.
+              </Text>
             </Box>
+
             <Stack isInline>
-              <Button size="lg" width="full">
+              <Button size="lg" width="full" onClick={deleteDisclosure.onClose}>
                 Cancel
               </Button>
               <Button
