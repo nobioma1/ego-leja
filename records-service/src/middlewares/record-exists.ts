@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { Record } from '../models/record';
-import { RecordDoc } from '../models/types/record-doc';
+import { Record, RecordDoc } from '../models/record';
 import { NotFoundError } from '@ego-leja/common';
 
 declare global {
