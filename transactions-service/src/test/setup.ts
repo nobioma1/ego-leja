@@ -14,11 +14,15 @@ declare global {
 
 let mongo: any;
 
+jest.mock('../utils/nats-wrapper');
+
 beforeAll(async () => {
+  jest.clearAllMocks();
+
   mongo = new MongoMemoryServer();
   const mongoUri = await mongo.getUri();
 
-  process.env.JWT_KEY = 'someTestJETSecret';
+  process.env.JWT_KEY = 'someTestJWTSecret';
   process.env.MONGO_DB_URI = mongoUri;
 
   await mongoose.connect(process.env.MONGO_DB_URI!, {
