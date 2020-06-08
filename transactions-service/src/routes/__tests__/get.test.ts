@@ -8,7 +8,7 @@ import { Record } from '../../models/record';
 
 const request = supertest(server);
 
-describe('[GET /api/transactions/recordId] GET ALL Transaction', () => {
+describe('[GET /api/transactions/recordId] GET all record transactions', () => {
   it('require authentication to make transaction', async () => {
     await request.get(`/api/transactions/${generateID()}`).expect(401);
   });
@@ -27,11 +27,14 @@ describe('[GET /api/transactions/recordId] GET ALL Transaction', () => {
   });
 
   it('Get all transactions for a record', async () => {
-    const xUser = global.signin();
-    const xRec = await createRecord({ userId: xUser.id, amount: 200 });
+    const otherUser = global.signin();
+    const otherUserRecord = await createRecord({
+      userId: otherUser.id,
+      amount: 200,
+    });
     await request
-      .post(`/api/transactions/${xRec.id}`)
-      .set('Cookie', xUser.cookie)
+      .post(`/api/transactions/${otherUserRecord.id}`)
+      .set('Cookie', otherUser.cookie)
       .send({ amount: 100 })
       .expect(201);
 
@@ -76,25 +79,26 @@ describe('[GET /api/transactions/recordId] GET ALL Transaction', () => {
       .set('Cookie', user.cookie);
 
     expect(res.status).toBe(200);
-    expect(res.body).toHaveLength(4);
+    expect(res.body.id).toEqual(record.id);
+    expect(res.body.transactions).toHaveLength(4);
   });
 
   it('returns an empty array if user has no transaction for record', async () => {
-    const xUser = global.signin();
-    const xRec = await createRecord({ userId: xUser.id });
+    const otherUser = global.signin();
+    const otherUserRecord = await createRecord({ userId: otherUser.id });
     await request
-      .post(`/api/transactions/${xRec.id}`)
-      .set('Cookie', xUser.cookie)
+      .post(`/api/transactions/${otherUserRecord.id}`)
+      .set('Cookie', otherUser.cookie)
       .send({ amount: 100 })
       .expect(201);
     await request
-      .post(`/api/transactions/${xRec.id}`)
-      .set('Cookie', xUser.cookie)
+      .post(`/api/transactions/${otherUserRecord.id}`)
+      .set('Cookie', otherUser.cookie)
       .send({ amount: 500 })
       .expect(201);
     await request
-      .post(`/api/transactions/${xRec.id}`)
-      .set('Cookie', xUser.cookie)
+      .post(`/api/transactions/${otherUserRecord.id}`)
+      .set('Cookie', otherUser.cookie)
       .send({ amount: 550.8 })
       .expect(201);
 
@@ -113,6 +117,7 @@ describe('[GET /api/transactions/recordId] GET ALL Transaction', () => {
       .set('Cookie', user.cookie);
 
     expect(res.status).toBe(200);
-    expect(res.body).toHaveLength(0);
+    expect(res.body.id).toEqual(record.id);
+    expect(res.body.transactions).toHaveLength(0);
   });
 });

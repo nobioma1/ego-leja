@@ -1,8 +1,7 @@
 import { Router, Request, Response } from 'express';
-import { requireAuth, validateFields } from '@ego-leja/common';
+import { requireAuth } from '@ego-leja/common';
 
 import { recordExists } from '../middlewares/record-exists';
-import { isDeductible } from '../middlewares/is-deductible';
 import { Transaction } from '../models/transaction';
 
 const router = Router();
@@ -12,14 +11,12 @@ router.get(
   requireAuth,
   recordExists,
   async (req: Request, res: Response) => {
-    const record = req.record;
+    const record = req.record.toObject();
 
-    const trxs = await Transaction.find({
-      record: record._id,
-    });
+    const transactions = await Transaction.find({ record: record.id });
 
-    res.status(200).send(trxs);
+    res.status(200).send({ ...record, transactions });
   }
 );
 
-export { router as getAllRouter };
+export { router as getRouter };
