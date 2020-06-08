@@ -1,4 +1,5 @@
 import { Subjects } from '../subjects';
+import { RecordType } from '../../types/record-type';
 
 export interface RecordCreatedEvent {
   subject: Subjects.RECORD_CREATED;
@@ -9,7 +10,7 @@ export interface RecordCreatedEvent {
     dueDate: Date;
     isBadDebt: boolean;
     name: string;
-    recordType: string;
+    recordType: RecordType;
     userId: string;
   };
 }
