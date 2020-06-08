@@ -31,10 +31,6 @@ server.get('/', (req, res) => {
   });
 });
 
-server.head('/status', (req, res) => {
-  res.status(200).end();
-});
-
 server.use(currentUser);
 server.use(signOutRouter);
 server.use(deleteUserRouter);

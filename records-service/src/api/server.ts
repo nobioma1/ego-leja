@@ -1,8 +1,8 @@
+import { errorHandler } from '@ego-leja/common';
 import cookieSession from 'cookie-session';
 import express from 'express';
 import 'express-async-errors';
 import helmet from 'helmet';
-import { errorHandler } from '@ego-leja/common';
 
 import { newRouter } from '../routes/new';
 import { updateRouter } from '../routes/update';
@@ -27,10 +27,6 @@ server.get('/', (req, res) => {
   res.status(200).json({
     message: 'records-service up 🚀',
   });
-});
-
-server.head('/status', (req, res) => {
-  res.status(200).end();
 });
 
 server.use(newRouter);

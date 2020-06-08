@@ -5,7 +5,7 @@ import helmet from 'helmet';
 import { errorHandler } from '@ego-leja/common';
 
 import { newRouter } from '../routes/new';
-import { getAllRouter } from '../routes/get-all';
+import { getRouter } from '../routes/get';
 
 const server = express();
 
@@ -26,13 +26,8 @@ server.get('/', (req, res) => {
   });
 });
 
+server.use(getRouter);
 server.use(newRouter);
-server.use(getAllRouter);
-
-server.head('/status', (req, res) => {
-  res.status(200).end();
-});
-
 server.use(errorHandler);
 
 export { server };
