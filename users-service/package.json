@@ -6,7 +6,8 @@
   "scripts": {
     "start": "ts-node-dev --poll ./src/index.ts",
     "dev:server": "nodemon src/index.ts",
-    "test": "jest --verbose --watch --no-cache"
+    "test": "jest --coverage --verbose --watchAll --no-cache",
+    "test:CI": "jest"
   },
   "jest": {
     "preset": "ts-jest",
