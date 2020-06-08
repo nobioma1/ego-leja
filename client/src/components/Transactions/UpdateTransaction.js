@@ -39,14 +39,17 @@ export const UpdateTransaction = ({ disclosure, record, onEditSuccess }) => {
         recordType: record.recordType,
       }}
       validationSchema={AddTransactionSchema}
-      onSubmit={async (values, { setSubmitting, resetForm }) => {
+      onSubmit={async (
+        { dueDate, name, description },
+        { setSubmitting, resetForm }
+      ) => {
         setSubmitting(true);
         await doRequest({
-          values,
+          values: { dueDate, name, description },
           onSuccess: (trx) => {
             setSubmitting(false);
             resetForm();
-            onEditSuccess(trx);
+            onEditSuccess((prevDetails) => ({ ...prevDetails, ...trx }));
             disclosure.onClose();
             toast({
               title: 'Transaction Updated',
