@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App Component App Component match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="css-0"
+  >
+    <div
+      class="css-b4i9nx"
+    >
+      <div
+        class="css-1y5qxzn"
+      >
+        <div
+          class="css-z7mtfw"
+        >
+          <img
+            alt="Credit logo"
+            class="css-1kldd4v"
+          />
+          <div
+            class="css-1xhj18k"
+          >
+            <button
+              class="css-s1jo4v"
+              type="button"
+            >
+              Login
+            </button>
+            <button
+              class="css-6cthfa"
+              type="button"
+            >
+              Create An Account
+            </button>
+          </div>
+        </div>
+        <div
+          class="css-qv7yi4"
+        >
+          <div
+            class="css-a2hsxd"
+          >
+            <h2
+              class="css-19put2e"
+            >
+              Credit tracking, 
+              <br />
+              has never been so simplified.
+            </h2>
+          </div>
+          <p
+            class="css-1jog7l0"
+          >
+            A money lending management web application that will keep track of your lendings, payments, notify on due dates, pending amount...
+          </p>
+        </div>
+      </div>
+      <div
+        class="css-1t1bi30"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
