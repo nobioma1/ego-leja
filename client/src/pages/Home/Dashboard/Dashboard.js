@@ -1,14 +1,27 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Box, Divider, Flex, Text, Button } from '@chakra-ui/core';
 
 import { DetailTabs } from 'components/DetailTabs';
 import { MonthTransactions, RecentTransactions } from 'components/Transactions';
 import { AppContext } from 'context/AppContext';
+import { useRequest } from 'hooks/useRequest';
 
 export const Dashboard = () => {
+  const [dashboard, setDashboard] = useState({ recentTransactions: [] });
   const {
-    AddTrxDisclosure: { onOpen },
+    AddNoteDisclosure: { onOpen },
   } = useContext(AppContext);
+
+  const { doRequest } = useRequest({
+    url: '/api/transactions/summary',
+    method: 'get',
+  });
+
+  useEffect(() => {
+    doRequest({
+      // onSuccess: (res) => setDashboard(res)
+    });
+  }, []);
 
   return (
     <Box>
@@ -22,7 +35,7 @@ export const Dashboard = () => {
           variant="solid"
           onClick={onOpen}
         >
-          Add Transaction
+          Add Note
         </Button>
       </Flex>
       <Flex
@@ -41,7 +54,7 @@ export const Dashboard = () => {
           </Box>
           <Divider />
           <Box h={['auto', 'auto', '75%']}>
-            <RecentTransactions />
+            <RecentTransactions transactions={dashboard.recentTransactions} />
           </Box>
         </Flex>
         <Divider orientation={['horizontal', 'horizontal', 'vertical']} />

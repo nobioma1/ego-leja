@@ -6,11 +6,11 @@ const Icon = ({ El, isBadDebt }) => {
   return <Box as={El} color={isBadDebt && 'red.500'} size={5} />;
 };
 
-export const TransactionIcon = ({ type, ...props }) => {
+export const TypeIcon = ({ type, ...props }) => {
   switch (type.toLowerCase()) {
-    case 'lending':
+    case 'lend':
       return <Icon El={FiSend} {...props} />;
-    case 'borrowing':
+    case 'borrow':
       return <Icon El={FiRepeat} {...props} />;
     case 'pay':
       return <Icon El={FiTrendingUp} {...props} />;

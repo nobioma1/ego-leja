@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import {
-  getSessionCookie,
-  clearSession,
-  setSessionCookie,
-} from 'utils/sessions';
+import { getSessionCookie, clearSession, setSessionCookie } from 'utils';
 import { useRequest } from 'hooks/useRequest';
 
 export const AuthContext = React.createContext();

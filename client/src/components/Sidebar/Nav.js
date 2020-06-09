@@ -6,6 +6,7 @@ import {
   MdDashboard,
   MdFiberSmartRecord,
   MdPermIdentity,
+  MdNotifications,
 } from 'react-icons/md';
 
 export const NavItem = ({ to, title, icon }) => {
@@ -32,10 +33,11 @@ export const Nav = () => {
     <Flex direction="column" h="65%">
       <NavItem to={`${url}`} title="Dashboard" icon={MdDashboard} />
       <NavItem to={`${url}/profile`} title="Profile" icon={MdPermIdentity} />
+      <NavItem to={`${url}/notes`} title="Notes" icon={MdFiberSmartRecord} />
       <NavItem
-        to={`${url}/transactions`}
-        title="Transactions"
-        icon={MdFiberSmartRecord}
+        to={`${url}/notifications`}
+        title="Notifications"
+        icon={MdNotifications}
       />
     </Flex>
   );

@@ -3,13 +3,12 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import { Flex, Text, PseudoBox } from '@chakra-ui/core';
 import moment from 'moment';
 
-import { TransactionIcon } from './TransactionIcon';
-import symbols from 'utils/symbols';
+import { numberFormat, TypeIcon } from 'utils';
 
-export const TransactionCard = ({ transaction }) => {
+export const NoteCard = ({ note }) => {
   const { url } = useRouteMatch();
 
-  const { id, recordType, name, amount, dueDate, isBadDebt } = transaction;
+  const { id, recordType, name, amount, dueDate, isBadDebt } = note;
 
   return (
     <Link to={`${url}/${id}`}>
@@ -24,7 +23,7 @@ export const TransactionCard = ({ transaction }) => {
       >
         <Flex justifyContent="space-between" alignItems="center">
           <Flex alignItems="center">
-            <TransactionIcon type={recordType} isBadDebt={isBadDebt} />
+            <TypeIcon type={recordType} isBadDebt={isBadDebt} />
             <Flex direction="column" px={3}>
               <Text fontSize="xl">{name}</Text>
               <Text fontSize="sm">
@@ -32,12 +31,7 @@ export const TransactionCard = ({ transaction }) => {
               </Text>
             </Flex>
           </Flex>
-          <Text fontSize="xl">
-            <Text as="span" fontSize="sm">
-              {symbols['NGN']}
-            </Text>{' '}
-            {amount}
-          </Text>
+          <Text fontSize="xl">{numberFormat({ amount, currency: 'NGN' })}</Text>
         </Flex>
       </PseudoBox>
     </Link>

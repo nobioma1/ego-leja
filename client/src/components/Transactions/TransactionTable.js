@@ -2,6 +2,8 @@ import { Flex, Text, Box } from '@chakra-ui/core';
 import React from 'react';
 import moment from 'moment';
 
+import { numberFormat } from 'utils';
+
 export const TransactionTable = ({ transactions }) => {
   const transactionRow = transactions.map((transaction, index) => (
     <Flex my={2} key={transaction.id}>
@@ -9,7 +11,7 @@ export const TransactionTable = ({ transactions }) => {
         {index + 1}
       </Text>
       <Text w="40%" textAlign="right">
-        {transaction.amount}
+        {numberFormat({ amount: transaction.amount })}
       </Text>
       <Text w="35%" textAlign="right">
         {moment(transaction.createdAt).format('DD MMM, YYYY')}

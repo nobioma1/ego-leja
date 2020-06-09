@@ -1,29 +1,24 @@
 import React from 'react';
 import { Flex, Text } from '@chakra-ui/core';
+import moment from 'moment';
 
-import { TransactionIcon } from './TransactionIcon';
-import symbols from 'utils/symbols';
+import { numberFormat, TypeIcon } from 'utils';
 
-export const RecentTransactionCard = ({
-  type,
-  name,
-  currency,
-  amount,
-  date,
-}) => {
+export const RecentTransactionCard = ({ transaction }) => {
   return (
     <Flex justifyContent="space-between" py={3}>
       <Flex alignItems="center">
-        <TransactionIcon type={type} />
+        <TypeIcon type={transaction.record.recordType} />
         <Flex direction="column" px={3}>
-          <Text fontSize="lg">{name}</Text>
+          <Text fontSize="lg">{transaction.record.name}</Text>
           <Text fontSize="sm">
-            {date} | {type}
+            {moment(transaction.createdAt).format('MMMM DD')} |{' '}
+            {transaction.record.recordType}
           </Text>
         </Flex>
       </Flex>
       <Text fontSize="lg" mb={2}>
-        {symbols[currency]} {amount}
+        {numberFormat({ amount: transaction.amount, currency: 'NGN' })}
       </Text>
     </Flex>
   );

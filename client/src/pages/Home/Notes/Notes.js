@@ -5,15 +5,15 @@ import { HomeContentLayout } from 'components/Layout';
 import { useRequest } from 'hooks/useRequest';
 import { Filters } from 'components/Filters';
 import { AppContext } from 'context/AppContext';
-import { TransactionCard } from 'components/Transactions/TransactionCard';
+import { NoteCard } from 'components/Notes';
 
-export const Transactions = () => {
+export const Notes = () => {
   const filters = ['All', 'Lendings', 'Borrowings', 'Bad Debt'];
   const [activeFilter, setActiveFilter] = useState(0);
   const {
-    state: { transactions },
-    AddTrxDisclosure: { onOpen },
-    setTransactions,
+    state: { notes },
+    AddNoteDisclosure: { onOpen },
+    setNotes,
   } = useContext(AppContext);
 
   const { doRequest } = useRequest({
@@ -23,18 +23,18 @@ export const Transactions = () => {
 
   useEffect(() => {
     doRequest({
-      onSuccess: (trxs) => {
-        setTransactions(trxs);
+      onSuccess: (notes) => {
+        setNotes(notes);
       },
     });
   }, []);
 
   return (
-    <HomeContentLayout title="Transactions">
+    <HomeContentLayout title="Your Notes">
       <Flex
         justifyContent="space-between"
         flexDirection={['column', 'column', 'row']}
-        pb={3}
+        py={3}
       >
         <Filters
           filters={filters}
@@ -48,20 +48,22 @@ export const Transactions = () => {
           size="sm"
           onClick={onOpen}
         >
-          Add Transaction
+          Add Note
         </Button>
       </Flex>
-      {transactions.length > 0 ? (
-        transactions.map((trx) => (
-          <Box key={trx.id}>
-            <TransactionCard transaction={trx} />
-          </Box>
-        ))
-      ) : (
-        <Text textAlign="center" my={5} fontSize="lg" opacity={0.8}>
-          You don't have any transaction
-        </Text>
-      )}
+      <Box h="80vh" overflowY="auto">
+        {notes.length > 0 ? (
+          notes.map((note) => (
+            <Box key={note.id}>
+              <NoteCard note={note} />
+            </Box>
+          ))
+        ) : (
+          <Text textAlign="center" my={5} fontSize="lg" opacity={0.8}>
+            You don't have any notes, Add Note...
+          </Text>
+        )}
+      </Box>
     </HomeContentLayout>
   );
 };

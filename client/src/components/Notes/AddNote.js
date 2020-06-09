@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Stack, InputLeftAddon, Box, Button, useToast } from '@chakra-ui/core';
+import { Stack, InputLeftAddon, Box, Button } from '@chakra-ui/core';
 import { Formik } from 'formik';
 import { FaCoins } from 'react-icons/fa';
 import * as Yup from 'yup';
@@ -14,22 +14,21 @@ import {
 } from 'components/Shared';
 import { useRequest } from 'hooks/useRequest';
 import { AppContext } from 'context/AppContext';
-import { TRANSACTION_TYPE } from './transaction.types';
+import { RECORD_TYPE } from '../Notes/notes.types';
 
-const AddTransactionSchema = Yup.object().shape({
-  amount: Yup.number().positive().required('Provide amount for transaction'),
+const AddNoteSchema = Yup.object().shape({
+  amount: Yup.number().positive().required('provide a valid amount'),
   name: Yup.string().required('name is required'),
   description: Yup.string(),
-  dueDate: Yup.date().required('Set a due date'),
+  dueDate: Yup.date().required('set a due date'),
   recordType: Yup.mixed()
-    .oneOf(Object.keys(TRANSACTION_TYPE))
-    .required('Transaction type is required'),
+    .oneOf(Object.keys(RECORD_TYPE))
+    .required('type is required'),
 });
 
-export const AddTransaction = () => {
-  const { AddTrxDisclosure, addTransaction } = useContext(AppContext);
+export const AddNote = () => {
+  const { AddNoteDisclosure, addNote, toaster } = useContext(AppContext);
 
-  const toast = useToast();
   const { doRequest } = useRequest({
     method: 'post',
     url: '/api/records',
@@ -44,29 +43,26 @@ export const AddTransaction = () => {
         dueDate: new Date(),
         recordType: '',
       }}
-      validationSchema={AddTransactionSchema}
+      validationSchema={AddNoteSchema}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         setSubmitting(true);
         await doRequest({
           values,
-          onSuccess: (trx) => {
+          onSuccess: (note) => {
             setSubmitting(false);
             resetForm();
-            AddTrxDisclosure.onClose();
-            addTransaction(trx);
-            toast({
-              title: 'Transaction created',
-              description: `Your new ${trx.recordType} TRX has been added.`,
-              status: 'success',
-              duration: 3000,
-              position: 'top-right',
+            AddNoteDisclosure.onClose();
+            addNote(note);
+            toaster({
+              title: 'Note Created',
+              description: `Your new ${note.recordType} Note has been added.`,
             });
           },
         });
       }}
     >
       {(props) => (
-        <DrawerLayout disclosure={AddTrxDisclosure} title="Add Transaction">
+        <DrawerLayout disclosure={AddNoteDisclosure} title="New Note">
           <form onSubmit={props.handleSubmit}>
             <InputField
               type="text"
@@ -75,13 +71,13 @@ export const AddTransaction = () => {
               placeholder="Jane Joe"
             />
             <SelectField
-              label="Transaction Type"
+              label="Note Type"
               name="recordType"
-              options={Object.entries(TRANSACTION_TYPE).map((item) => ({
+              options={Object.entries(RECORD_TYPE).map((item) => ({
                 name: item[0],
                 value: item[1],
               }))}
-              placeholder="What type of transaction?"
+              placeholder="What type of note?"
             />
             <AddOnInputField
               type="number"
@@ -101,18 +97,18 @@ export const AddTransaction = () => {
             <TextAreaField
               name="description"
               label="Description"
-              placeholder="Add more information about transaction"
+              placeholder="Add more information about note"
             />
             <Stack>
               <Button
                 type="submit"
                 variantColor="green"
                 isLoading={props.isSubmitting}
-                loadingText="Adding Transaction..."
+                loadingText="Adding Note..."
               >
                 Submit
               </Button>
-              <Button variant="outline" onClick={AddTrxDisclosure.onClose}>
+              <Button variant="outline" onClick={AddNoteDisclosure.onClose}>
                 Cancel
               </Button>
             </Stack>

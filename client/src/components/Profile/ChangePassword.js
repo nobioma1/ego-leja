@@ -1,17 +1,11 @@
-import React, { useState } from 'react';
-import {
-  Text,
-  InputRightElement,
-  Button,
-  Box,
-  Flex,
-  useToast,
-} from '@chakra-ui/core';
+import React, { useState, useContext } from 'react';
+import { Text, InputRightElement, Button, Box, Flex } from '@chakra-ui/core';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { AccordionLayout, InputField } from 'components/Shared';
 import { useRequest } from 'hooks/useRequest';
+import { AppContext } from 'context/AppContext';
 
 const ChangePasswordSchema = Yup.object().shape({
   currentPassword: Yup.string().required('Current password is required'),
@@ -26,7 +20,7 @@ const ChangePasswordSchema = Yup.object().shape({
 
 export const ChangePassword = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const toast = useToast();
+  const { toaster } = useContext(AppContext);
   const { doRequest, errors } = useRequest({
     method: 'post',
     url: '/api/users/change-password',
@@ -52,12 +46,9 @@ export const ChangePassword = () => {
               onSuccess: () => {
                 resetForm();
                 setSubmitting(false);
-                toast({
+                toaster({
                   title: 'Password Change Success.',
                   description: 'Your Password has been updated successfully',
-                  status: 'success',
-                  duration: 3000,
-                  position: 'top-right',
                 });
               },
             });

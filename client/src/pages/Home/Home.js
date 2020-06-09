@@ -8,7 +8,7 @@ import { TopBar } from 'components/TopBar';
 import { useRequest } from 'hooks/useRequest';
 import { UserContext } from 'context/UserContext';
 import { AppContextProvider } from 'context/AppContext';
-import { AddTransaction } from 'components/Transactions';
+import { AddNote } from 'components/Notes';
 
 export const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -73,7 +73,7 @@ export const Home = () => {
           <Box mx={2}>
             <AppContextProvider>
               <HomeRoute />
-              <AddTransaction />
+              <AddNote />
             </AppContextProvider>
           </Box>
         </Flex>

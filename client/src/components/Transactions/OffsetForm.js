@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Box,
   Button,
@@ -6,28 +6,22 @@ import {
   InputLeftAddon,
   Text,
   Switch,
-  useToast,
 } from '@chakra-ui/core';
 import { Formik } from 'formik';
 import { FaCoins } from 'react-icons/fa';
 import * as Yup from 'yup';
 
 import { AddOnInputField } from 'components/Shared';
-import symbols from 'utils/symbols';
 import { useRequest } from 'hooks/useRequest';
+import { numberFormat } from 'utils';
+import { AppContext } from 'context/AppContext';
 
 const OffsetSchema = Yup.object().shape({
   amount: Yup.number().required('amount is required'),
 });
 
-export const OffsetForm = ({
-  currency,
-  recordId,
-  payable,
-  onClose,
-  onSuccess,
-}) => {
-  const toast = useToast();
+export const OffsetForm = ({ recordId, payable, onClose, onSuccess }) => {
+  const { toaster } = useContext(AppContext);
   const [offsetAmount, setOffsetAmount] = useState(0);
   const { doRequest } = useRequest({
     url: `/api/transactions/${recordId}`,
@@ -48,12 +42,11 @@ export const OffsetForm = ({
           onSuccess: (offset) => {
             setSubmitting(false);
             onClose();
-            toast({
-              title: 'Offset Successful',
-              description: `${offset.amount} has been deducted.`,
-              status: 'success',
-              duration: 3000,
-              position: 'top-right',
+            toaster({
+              title: 'Transaction Successful',
+              description: `${numberFormat({
+                amount: offset.amount,
+              })} has been deducted.`,
             });
             onSuccess();
           },
@@ -65,7 +58,7 @@ export const OffsetForm = ({
           <Flex justifyContent="space-between">
             <Text>Amount Left: </Text>
             <Text fontSize="xl">
-              {symbols[currency]} {payable}
+              {numberFormat({ amount: payable, currency: 'NGN' })}
             </Text>
           </Flex>
           <AddOnInputField

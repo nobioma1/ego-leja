@@ -3,41 +3,24 @@ import { Text, Box } from '@chakra-ui/core';
 
 import { RecentTransactionCard } from 'components/Transactions/RecentTransactionCard';
 
-export const RecentTransactions = () => {
+export const RecentTransactions = ({ transactions }) => {
+  const recentTransactions = transactions.map((transaction) => (
+    <RecentTransactionCard key={transaction.id} transaction={transaction} />
+  ));
+
   return (
     <Box>
       <Text fontSize="xl" fontWeight="bold">
         Recent Transactions
       </Text>
       <Box h={['auto', 'auto', '530px']} overflowY="auto">
-        <RecentTransactionCard
-          type="Lending"
-          name="John Doe"
-          currency="NGN"
-          amount="30,000"
-          date="Tuesday, 30 June"
-        />
-        <RecentTransactionCard
-          type="Borrowing"
-          name="John Doe"
-          currency="NGN"
-          amount="30,000"
-          date="Tuesday, 30 June"
-        />
-        <RecentTransactionCard
-          type="Bad Debt"
-          name="John Doe"
-          currency="NGN"
-          amount="30,000"
-          date="Tuesday, 30 June"
-        />
-        <RecentTransactionCard
-          type="Pay"
-          name="John Doe"
-          currency="NGN"
-          amount="30,000"
-          date="Tuesday, 30 June"
-        />
+        {recentTransactions.length === 0 ? (
+          <Text textAlign="center" opacity="0.7" my={3}>
+            No transaction yet...
+          </Text>
+        ) : (
+          recentTransactions
+        )}
       </Box>
     </Box>
   );
