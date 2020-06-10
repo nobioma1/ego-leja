@@ -1,19 +1,20 @@
-import React from 'react';
-import { Button, Box, Flex, useToast, useDisclosure } from '@chakra-ui/core';
+import React, { useContext } from 'react';
+import { Button, Box, Flex, useDisclosure } from '@chakra-ui/core';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { AccordionLayout, InputField } from 'components/Shared';
 import { useRequest } from 'hooks/useRequest';
 import { Modal } from 'components/Modal';
-import { clearSession } from 'utils/sessions';
+import { clearSession } from 'utils';
+import { AppContext } from 'context/AppContext';
 
 const passwordSchema = Yup.object().shape({
   password: Yup.string().required('password is required'),
 });
 
 export const DeleteAccount = () => {
-  const toast = useToast();
+  const { toaster } = useContext(AppContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { doRequest, errors } = useRequest({
     method: 'post',
@@ -47,18 +48,15 @@ export const DeleteAccount = () => {
             password: '',
           }}
           validationSchema={passwordSchema}
-          onSubmit={async (values, { setSubmitting, resetForm }) => {
+          onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true);
             await doRequest({
               values,
               onSuccess: () => {
                 setSubmitting(false);
-                toast({
+                toaster({
                   title: 'Delete Account.',
                   description: 'Your account had been deleted successfully',
-                  status: 'success',
-                  duration: 3000,
-                  position: 'top-right',
                 });
                 onClose();
                 setTimeout(() => {

@@ -1,51 +1,46 @@
 import React, { useReducer } from 'react';
-import { useDisclosure } from '@chakra-ui/core';
+import { useDisclosure, useToast } from '@chakra-ui/core';
+
+import { INITIAL_STATE, types, NoteReducer } from './reducers/notes';
 
 export const AppContext = React.createContext();
 
-const SET_TRANSACTIONS = 'SET_TRANSACTIONS';
-const SET_TRANSACTION = 'SET_TRANSACTION';
-
-const INITIAL_STATE = {
-  transactions: [],
-};
-
-const TransactionsReducer = (state, action) => {
-  switch (action.type) {
-    case SET_TRANSACTION:
-      return {
-        ...state,
-        transactions: [action.payload, ...state.transactions],
-      };
-    case SET_TRANSACTIONS:
-      return {
-        ...state,
-        transactions: action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
 export const AppContextProvider = ({ children }) => {
-  const AddTrxDisclosure = useDisclosure();
-  const [state, dispatch] = useReducer(TransactionsReducer, INITIAL_STATE);
+  const AddNoteDisclosure = useDisclosure();
+  const toast = useToast();
+  const [state, dispatch] = useReducer(NoteReducer, INITIAL_STATE);
 
-  const setTransactions = (transactions) => {
-    return dispatch({ type: SET_TRANSACTIONS, payload: transactions });
+  const setNotes = (notes) => {
+    return dispatch({ type: types.SET_NOTES, payload: notes });
   };
 
-  const addTransaction = (transaction) => {
-    return dispatch({ type: SET_TRANSACTION, payload: transaction });
+  const addNote = (note) => {
+    return dispatch({ type: types.SET_NOTE, payload: note });
+  };
+
+  /**
+   * Invoke useToast toast function
+   *
+   * @param { {title: string, description?: string, isError?: boolean } } info
+   */
+
+  const toaster = (info, isError = false) => {
+    return toast({
+      ...info,
+      status: isError ? 'warning' : 'success',
+      duration: 3000,
+      position: 'top-right',
+    });
   };
 
   return (
     <AppContext.Provider
       value={{
         state,
-        addTransaction,
-        setTransactions,
-        AddTrxDisclosure,
+        addNote,
+        setNotes,
+        toaster,
+        AddNoteDisclosure,
       }}
     >
       {children}

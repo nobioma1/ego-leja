@@ -1,5 +1,5 @@
-import React from 'react';
-import { Stack, InputLeftAddon, Box, Button, useToast } from '@chakra-ui/core';
+import React, { useContext } from 'react';
+import { Stack, InputLeftAddon, Box, Button } from '@chakra-ui/core';
 import { Formik } from 'formik';
 import { FaCoins } from 'react-icons/fa';
 import * as Yup from 'yup';
@@ -13,16 +13,17 @@ import {
   DatePickerField,
 } from 'components/Shared';
 import { useRequest } from 'hooks/useRequest';
-import { TRANSACTION_TYPE } from './transaction.types';
+import { RECORD_TYPE } from './notes.types';
+import { AppContext } from 'context/AppContext';
 
-const AddTransactionSchema = Yup.object().shape({
+const updateNoteSchema = Yup.object().shape({
   name: Yup.string().required('name is required'),
   description: Yup.string(),
   dueDate: Yup.date().required('Set a due date'),
 });
 
-export const UpdateTransaction = ({ disclosure, record, onEditSuccess }) => {
-  const toast = useToast();
+export const UpdateNote = ({ disclosure, record, onEditSuccess }) => {
+  const { toaster } = useContext(AppContext);
   const { doRequest } = useRequest({
     method: 'put',
     url: `/api/records/${record.id}`,
@@ -38,7 +39,7 @@ export const UpdateTransaction = ({ disclosure, record, onEditSuccess }) => {
         dueDate: new Date(record.dueDate),
         recordType: record.recordType,
       }}
-      validationSchema={AddTransactionSchema}
+      validationSchema={updateNoteSchema}
       onSubmit={async (
         { dueDate, name, description },
         { setSubmitting, resetForm }
@@ -46,24 +47,21 @@ export const UpdateTransaction = ({ disclosure, record, onEditSuccess }) => {
         setSubmitting(true);
         await doRequest({
           values: { dueDate, name, description },
-          onSuccess: (trx) => {
+          onSuccess: (note) => {
             setSubmitting(false);
             resetForm();
-            onEditSuccess((prevDetails) => ({ ...prevDetails, ...trx }));
+            onEditSuccess((prevDetails) => ({ ...prevDetails, ...note }));
             disclosure.onClose();
-            toast({
-              title: 'Transaction Updated',
-              description: `${trx.name} has been updated.`,
-              status: 'success',
-              duration: 3000,
-              position: 'top-right',
+            toaster({
+              title: 'Note Update Saved Successfully',
+              description: `${note.name} ${note.recordType} Note has been updated.`,
             });
           },
         });
       }}
     >
       {(props) => (
-        <DrawerLayout disclosure={disclosure} title="Update Transaction">
+        <DrawerLayout disclosure={disclosure} title="Update Note">
           <form onSubmit={props.handleSubmit}>
             <InputField
               type="text"
@@ -72,15 +70,15 @@ export const UpdateTransaction = ({ disclosure, record, onEditSuccess }) => {
               placeholder="Jane Joe"
             />
             <SelectField
-              label="Transaction Type"
+              label="Note Type"
               name="recordType"
-              options={Object.entries(TRANSACTION_TYPE).map((item) => ({
+              options={Object.entries(RECORD_TYPE).map((item) => ({
                 name: item[0],
                 value: item[1],
               }))}
               isDisabled
-              subInfo="Transaction Type cannot be edited"
-              placeholder="What type of transaction?"
+              subInfo="Note Type cannot be edited"
+              placeholder="What type of note?"
             />
             <AddOnInputField
               type="number"
@@ -102,14 +100,14 @@ export const UpdateTransaction = ({ disclosure, record, onEditSuccess }) => {
             <TextAreaField
               name="description"
               label="Description"
-              placeholder="Add more information about transaction"
+              placeholder="Add more information about note"
             />
             <Stack>
               <Button
                 type="submit"
                 variantColor="green"
                 isLoading={props.isSubmitting}
-                loadingText="Saving Transaction..."
+                loadingText="Saving Note Changes..."
               >
                 Save Changes
               </Button>

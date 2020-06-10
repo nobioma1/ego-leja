@@ -6,7 +6,7 @@ import {
   StatHelpText,
   StatArrow,
 } from '@chakra-ui/core';
-import symbols from 'utils/symbols';
+import { symbols } from 'utils';
 
 export const AmountStat = ({
   label,

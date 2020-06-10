@@ -11,7 +11,7 @@ class NatsWrapper {
 
   get client() {
     if (!this._client) {
-      throw new Error('Cannot access client before instantiation');
+      throw new Error('Cannot access nats client before instantiation');
     }
 
     return this._client;

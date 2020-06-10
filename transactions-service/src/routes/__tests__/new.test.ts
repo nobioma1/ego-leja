@@ -132,10 +132,13 @@ describe('[POST /api/transactions/recordId] NEW Transaction', () => {
     // otherUser Signin
     const otherUser = global.signin();
     // Create otherUser Record
-    const xRec = await createRecord({ userId: otherUser.id, amount: 200 });
+    const OtherUserRecord = await createRecord({
+      userId: otherUser.id,
+      amount: 200,
+    });
     // Make transaction for otherUser
     await request
-      .post(`/api/transactions/${xRec.id}`)
+      .post(`/api/transactions/${OtherUserRecord.id}`)
       .set('Cookie', otherUser.cookie)
       .send({ amount: 100 })
       .expect(201);

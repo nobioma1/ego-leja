@@ -4,7 +4,7 @@ import { requireAuth, validateFields } from '@ego-leja/common';
 import { transactionSchema } from '../schema/transaction-schema';
 import { recordExists } from '../middlewares/record-exists';
 import { isDeductible } from '../middlewares/is-deductible';
-import { Transaction } from '../models/transaction';
+import { TransactionService } from '../services/transaction-service';
 
 const router = Router();
 
@@ -17,15 +17,11 @@ router.post(
   async (req: Request, res: Response) => {
     const record = req.record;
 
-    const trx = Transaction.build({
+    const trx = await TransactionService.newTransaction({
       amount: req.body.amount,
       userId: req.currentUser.id,
       record,
     });
-    await trx.save();
-
-    record.set({ payable: record.payable - trx.amount });
-    await record.save();
 
     res.status(201).send(trx);
   }
